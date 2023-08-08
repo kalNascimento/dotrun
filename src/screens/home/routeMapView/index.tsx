@@ -1,48 +1,40 @@
-import { PropsWithChildren } from 'react';
-import { StyleSheet } from 'react-native';
 import MapView from 'react-native-maps';
+
 import { RouteMarker } from '../routerMarker';
 
-interface ICoordinates {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+import { ContainerMap } from './styles';
+import { theme } from '../../../theme/Theme';
+
+import { ICoordinates } from '../types';
 
 interface RouteMapViewProps {
   coordinate: ICoordinates;
-  positions: any[];
+  positionHistory: ICoordinates[];
 }
+
+const DELTA = 0.002;
 
 export function RouteMapView({
   coordinate,
-  positions,
+  positionHistory,
 }: RouteMapViewProps) {
+  const isObjectEmpty = Object.keys(coordinate).length == 0;
 
   return (
-    <>
-      {coordinate.latitude &&
+    <ContainerMap style={theme.shadow}>
+      {!isObjectEmpty &&
         <MapView
-          style={{ alignSelf: 'stretch', height: '100%', flex: 5, ...styles.button }}
-          region={coordinate}>
-            <RouteMarker coordinate={coordinate} positions={positions}></RouteMarker>
+          style={{ height: '100%' }}
+          region={{
+            ...coordinate,
+            latitudeDelta: DELTA,
+            longitudeDelta: DELTA
+          }}>
+          <RouteMarker
+            coordinate={coordinate}
+            positionHistory={positionHistory} />
         </MapView>
       }
-    </>
+    </ContainerMap>
   )
 }
-
-const styles = StyleSheet.create({
-  button: {
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 1.51,
-    elevation: 1,
-    backgroundColor: '#DDDDDD'
-  }
-})

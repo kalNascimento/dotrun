@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
-import { TouchableHighlight, StyleSheet } from "react-native";
+import { TouchableHighlight } from "react-native";
 
 import { ButtonContentView, ButtonText, ButtonView } from "./styles";
+import { theme } from "../../theme/Theme";
 
 interface ActionButtonProps {
   onPress: () => void,
@@ -12,7 +13,7 @@ export function ActionButton({
   children
 }: PropsWithChildren<ActionButtonProps>) {
   return (
-    <ButtonView style={styles.buttonShadow}>
+    <ButtonView style={theme.shadow}>
       <TouchableHighlight onPress={onPress}>
         <ButtonContentView>
           <ButtonText>{ children }</ButtonText>
@@ -21,16 +22,3 @@ export function ActionButton({
     </ButtonView>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonShadow: {
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 1.51,
-    elevation: 2
-  }
-})

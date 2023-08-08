@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
-import { View } from "react-native";
 
 import * as Location from 'expo-location';
 import { RouteMapView } from "./routeMapView";
 
 import { ActionButton } from "../../components/actionButton";
-import { ContainerView } from "./styles";
 
-interface ICoordinates {
-  latitude: number;
-  longitude: number;
-  latitudeDelta: number;
-  longitudeDelta: number;
-}
+import { ContainerButtonView, ContainerView } from "./styles";
+
+import { ICoordinates } from './types';
+
+
+const TIME_INTERVAL = 5000;
+const DEFAULT_POSITION = 1;
+const DISTANCE_INTERVAL = 0;
 
 let foregroundSubscription: any = null
 
 export function Home() {
   const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
-  const [position, setPosition] = useState([{ latitude: 1, longitude: 1 }])
+  const [positions, setPositions] = useState<ICoordinates[]>([{
+      latitude: DEFAULT_POSITION,
+      longitude: DEFAULT_POSITION
+    }] as ICoordinates[]);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
@@ -26,44 +29,35 @@ export function Home() {
       const foreground = await Location.requestForegroundPermissionsAsync()
       if (foreground.granted) await Location.requestBackgroundPermissionsAsync()
 
-      const location = await Location.getLastKnownPositionAsync({});
-      setCoordinates({
-        latitude: location?.coords.latitude ?? 1,
-        longitude: location?.coords.longitude ?? 1,
-        latitudeDelta: 0.005,
-        longitudeDelta: 0.005,
-      });
+      stopForegroundUpdate();
     }
     requestPermissions()
   }, [])
 
   const startForegroundUpdate = async () => {
-    console.log('ok')
     const { granted } = await Location.getForegroundPermissionsAsync()
     if (!granted) {
       setErrorMsg("Permissão para rastrear de localização negada")
       return
     }
-    setPosition([])
+    setPositions([])
 
     foregroundSubscription?.remove()
 
     foregroundSubscription = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.Highest,
-        timeInterval: 5000,
-        distanceInterval: 0,
+        timeInterval: TIME_INTERVAL,
+        distanceInterval: DISTANCE_INTERVAL,
       },
       location => {
-        setPosition(prevPosition => [...prevPosition, {
+        setPositions(prevPosition => [...prevPosition, {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
         }])
         setCoordinates({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 0.005,
-          longitudeDelta: 0.005
         })
       }
     )
@@ -73,24 +67,22 @@ export function Home() {
     foregroundSubscription?.remove()
     const location = await Location.getLastKnownPositionAsync({});
     setCoordinates({
-      latitude: location?.coords.latitude ?? 1,
-      longitude: location?.coords.longitude ?? 1,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005,
+      latitude: location?.coords.latitude ?? DEFAULT_POSITION,
+      longitude: location?.coords.longitude ?? DEFAULT_POSITION,
     });
   }
 
   return (
     <ContainerView>
-      <RouteMapView coordinate={coordinates} positions={position} />
-      <View style={{ flex: 2, gap: 16, marginTop: 16 }}>
+      <RouteMapView coordinate={coordinates} positionHistory={positions} />
+      <ContainerButtonView>
         <ActionButton onPress={startForegroundUpdate}>
           Iniciar
         </ActionButton>
         <ActionButton onPress={stopForegroundUpdate}>
           Parar
         </ActionButton>
-      </View>
+      </ContainerButtonView>
     </ContainerView>
   );
 }
