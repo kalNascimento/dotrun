@@ -1,5 +1,5 @@
-import { PropsWithChildren } from "react";
-import { StyleProp, TouchableHighlight, ViewStyle } from "react-native";
+import React, { PropsWithChildren } from "react";
+import { StyleProp, TouchableHighlight, View, Text, ViewStyle } from "react-native";
 
 import { ButtonContentView, ButtonText, ButtonView } from "./styles";
 import { theme } from "../../theme/Theme";

@@ -1,13 +1,18 @@
 import 'react-native-gesture-handler';
 import { BodyTemplate } from './src/components/bodyTemplate';
 import { Home } from './src/screens/home';
-import { View, Text, Image } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+
+import PersonIcon from './assets/person.svg'
+import LogoIcon from './assets/dotRUN.svg'
+import MenuIcon from './assets/menu.svg'
 
 const header = () => {
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginHorizontal: 16 }}>
-      <Text>logo</Text>
-      <Text>menu</Text>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <PersonIcon width="24" />
+      <LogoIcon width="48" />
+      <MenuIcon width="24" />
     </View>
   )
 }
