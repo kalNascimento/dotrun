@@ -16,9 +16,11 @@ export function BodyTemplate(
     <ThemeProvider theme={theme}>
       <BodyContainer>
         <StatusBar />
-        <HeaderView>
-          {header}
-        </HeaderView>
+        {header &&
+          <HeaderView>
+            {header}
+          </HeaderView>
+        }
         <MainView>
           {children}
         </MainView>

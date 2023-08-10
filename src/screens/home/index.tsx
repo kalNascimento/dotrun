@@ -14,6 +14,7 @@ import { TotalDistance } from './totalDistance';
 import StopIcon from '../../../assets/square.svg'
 import PauseIcon from '../../../assets/pause.svg'
 import PlayIcon from '../../../assets/play.svg'
+import { Timer } from './stopwatch';
 
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
@@ -26,6 +27,10 @@ export function Home() {
   }] as ICoordinates[]);
   const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
   const [isPositionUpdating, setIsPositionUpdating] = useState<boolean>(false);
+
+  const [isTimerStart, setIsTimerStart] = useState(false);
+  const [resetStopTimer, setResetTimer] = useState(false);
+
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
@@ -55,6 +60,9 @@ export function Home() {
     }
     setPositions([])
 
+    setIsTimerStart(!isTimerStart);
+    setResetTimer(false);
+
     foregroundSubscription?.remove()
     setIsPositionUpdating(true);
     foregroundSubscription = await Location.watchPositionAsync(
@@ -74,6 +82,9 @@ export function Home() {
 
   const stopForegroundUpdate = async () => {
     setIsPositionUpdating(false);
+
+    setIsTimerStart(false);
+
     foregroundSubscription?.remove()
 
     const location = await Location.getLastKnownPositionAsync({});
@@ -88,17 +99,18 @@ export function Home() {
   return (
     <ContainerView>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
         <TotalDistance positionHistory={positions} />
       </View>
 
       <RouteMapView coordinate={coordinates} positionHistory={positions} />
       <ContainerButtonView>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <ActionButton onPress={stopForegroundUpdate} style={{width: '42%'}}>
+          <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
             <Text>Parar</Text>
             <StopIcon width="32" />
           </ActionButton>
-          <ActionButton onPress={stopForegroundUpdate} style={{width: '42%'}}>
+          <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
             <Text>Pausar</Text>
             <PauseIcon width="32" />
           </ActionButton>
