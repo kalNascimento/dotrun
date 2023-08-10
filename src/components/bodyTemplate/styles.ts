@@ -6,7 +6,7 @@ export const BodyContainer = styled.SafeAreaView<{$height?: number}>`
 `
 
 export const HeaderView = styled.View`
-  background-color: #05822A;
+  background-color: ${({theme}) => theme.colors.primary};
   min-height: 60px;
 `
 

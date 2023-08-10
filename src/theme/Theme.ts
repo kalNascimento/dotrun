@@ -1,17 +1,17 @@
 export const theme = {
   colors: {
-    primary: '#05822A',
-    secondary: '#404CE6',
+    primary: '#007A4F',
+    secondary: '#002B7A',
     feedback: {
       success: '#2DD36F',
       warning: '#FFC409',
       danger: '#EB445A',
     },
-    white: '#F1F1F1',
-    gray: '#BFBFBF',
-    black: '#1A1A1A'
+    white: '#FAFAFA',
+    gray: '#DFDFDF',
+    black: '#202020'
   },
-  background: '#F1F1F1',
+  background: '#FAFAFA',
   fontSize: {
     xs: '12px',
     sm: '14px',
@@ -23,8 +23,12 @@ export const theme = {
     semibold: '600',
     bold: '700'
   },
+  fontColor: {
+    title: '#202020',
+    text: '#414141'
+  },
   shadow: {
-    shadowColor: "#000000",
+    shadowColor: "#202020",
     shadowOffset: {
       width: 0,
       height: 1,

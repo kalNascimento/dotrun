@@ -8,20 +8,20 @@ import { ActionButton } from "../../components/actionButton";
 import { ContainerButtonView, ContainerView } from "./styles";
 
 import { ICoordinates } from './types';
+import { TotalDistance } from './totalDistance';
+import { View } from 'react-native';
 
-
-const TIME_INTERVAL = 5000;
+const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
-const DISTANCE_INTERVAL = 0;
-
-let foregroundSubscription: any = null
+const DISTANCE_INTERVAL = 2;
 
 export function Home() {
-  const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
   const [positions, setPositions] = useState<ICoordinates[]>([{
-      latitude: DEFAULT_POSITION,
-      longitude: DEFAULT_POSITION
-    }] as ICoordinates[]);
+    latitude: DEFAULT_POSITION,
+    longitude: DEFAULT_POSITION
+  }] as ICoordinates[]);
+  const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
+  const [isPositionUpdating, setIsPositionUpdating] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
@@ -32,7 +32,16 @@ export function Home() {
       stopForegroundUpdate();
     }
     requestPermissions()
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (isPositionUpdating) {
+      setPositions(prevPosition => [...prevPosition, {
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+      }])
+    }
+  }, [coordinates])
 
   const startForegroundUpdate = async () => {
     const { granted } = await Location.getForegroundPermissionsAsync()
@@ -43,7 +52,7 @@ export function Home() {
     setPositions([])
 
     foregroundSubscription?.remove()
-
+    setIsPositionUpdating(true);
     foregroundSubscription = await Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.Highest,
@@ -51,10 +60,6 @@ export function Home() {
         distanceInterval: DISTANCE_INTERVAL,
       },
       location => {
-        setPositions(prevPosition => [...prevPosition, {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        }])
         setCoordinates({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -64,7 +69,9 @@ export function Home() {
   }
 
   const stopForegroundUpdate = async () => {
+    setIsPositionUpdating(false);
     foregroundSubscription?.remove()
+
     const location = await Location.getLastKnownPositionAsync({});
     setCoordinates({
       latitude: location?.coords.latitude ?? DEFAULT_POSITION,
@@ -72,15 +79,26 @@ export function Home() {
     });
   }
 
+  let foregroundSubscription: any = null
+
   return (
     <ContainerView>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+        <TotalDistance positionHistory={positions} />
+      </View>
+
       <RouteMapView coordinate={coordinates} positionHistory={positions} />
       <ContainerButtonView>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <ActionButton onPress={stopForegroundUpdate} style={{width: '42%'}}>
+            Parar
+          </ActionButton>
+          <ActionButton onPress={stopForegroundUpdate} style={{width: '42%'}}>
+            Pausar
+          </ActionButton>
+        </View>
         <ActionButton onPress={startForegroundUpdate}>
           Iniciar
-        </ActionButton>
-        <ActionButton onPress={stopForegroundUpdate}>
-          Parar
         </ActionButton>
       </ContainerButtonView>
     </ContainerView>
