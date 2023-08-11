@@ -14,6 +14,5 @@ export const HeaderView = styled.View`
 
 export const MainView = styled.View`
   background-color: transparent;
-  margin: 16px;
   flex: 1;
 `

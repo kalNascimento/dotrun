@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import * as Location from 'expo-location';
 import { RouteMapView } from "./routeMapView";
 
-import { ActionButton } from "../../components/actionButton";
+import { ActionButton } from "../../components/buttons/actionButton";
 
 import { ContainerButtonView, ContainerView } from "./styles";
 

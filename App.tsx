@@ -6,6 +6,7 @@ import { View, StyleSheet } from 'react-native';
 import PersonIcon from './assets/person.svg'
 import LogoIcon from './assets/dotRUN.svg'
 import MenuIcon from './assets/menu.svg'
+import { Auth } from './src/screens/auth';
 
 const header = () => {
   return (
@@ -19,8 +20,8 @@ const header = () => {
 
 export default function App() {
   return (
-    <BodyTemplate header={header()}>
-      <Home></Home>
+    <BodyTemplate>
+      <Auth></Auth>
     </BodyTemplate>
   );
 }
