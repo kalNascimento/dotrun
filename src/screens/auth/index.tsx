@@ -20,6 +20,7 @@ import FacebookIcon from '../../../assets/facebook_logo.svg'
 import GoogleIcon from '../../../assets/google_group.svg'
 import TwitterIcon from '../../../assets/twitter_group.svg'
 import { CustomPasswordInput } from '../../components/inputs/customPasswordInput';
+import { useNavigation } from '@react-navigation/native';
 
 export function Auth() {
   const {
@@ -27,8 +28,11 @@ export function Auth() {
     handleSubmit,
   } = useForm<FormData>();
 
+  const navigation = useNavigation();
+
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log(data);
+    navigation.navigate('Home')
   };
 
   const emailRules = {

@@ -24,7 +24,7 @@ export function CustomTextInput({
           <>
             <Input
               placeholder={placeholder}
-              placeholderTextColor={theme.fontColor.text}
+              placeholderTextColor={theme.fontColor.placeholder}
               keyboardType="email-address"
               onChangeText={onChange}
               value={value}

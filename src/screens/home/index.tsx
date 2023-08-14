@@ -6,7 +6,7 @@ import { RouteMapView } from "./routeMapView";
 
 import { ActionButton } from "../../components/buttons/actionButton";
 
-import { ContainerButtonView, ContainerView } from "./styles";
+import { ContainerButtonView, ContainerView, HeaderView } from "./styles";
 
 import { ICoordinates } from './types';
 import { TotalDistance } from './totalDistance';
@@ -14,11 +14,25 @@ import { TotalDistance } from './totalDistance';
 import StopIcon from '../../../assets/square.svg'
 import PauseIcon from '../../../assets/pause.svg'
 import PlayIcon from '../../../assets/play.svg'
+import PersonIcon from '../../../assets/person.svg'
+import LogoIcon from '../../../assets/dotRUN.svg'
+import MenuIcon from '../../../assets/menu.svg'
+
 import { Timer } from './stopwatch';
 
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
 const DISTANCE_INTERVAL = 2;
+
+const Header = () => {
+  return (
+    <HeaderView>
+      <PersonIcon width="32" height="32" />
+      <LogoIcon width="48" />
+      <MenuIcon width="32" height="32" />
+    </HeaderView>
+  )
+}
 
 export function Home() {
   const [positions, setPositions] = useState<ICoordinates[]>([{
@@ -97,29 +111,32 @@ export function Home() {
   let foregroundSubscription: any = null
 
   return (
-    <ContainerView>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
-        <TotalDistance positionHistory={positions} />
-      </View>
-
-      <RouteMapView coordinate={coordinates} positionHistory={positions} />
-      <ContainerButtonView>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
-            <Text>Parar</Text>
-            <StopIcon width="32" />
-          </ActionButton>
-          <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
-            <Text>Pausar</Text>
-            <PauseIcon width="32" />
-          </ActionButton>
+    <>
+      <Header></Header>
+      <ContainerView>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
+          <TotalDistance positionHistory={positions} />
         </View>
-        <ActionButton onPress={startForegroundUpdate}>
-          <Text>Iniciar</Text>
-          <PlayIcon width="32" />
-        </ActionButton>
-      </ContainerButtonView>
-    </ContainerView>
+
+        <RouteMapView coordinate={coordinates} positionHistory={positions} />
+        <ContainerButtonView>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+              <Text>Parar</Text>
+              <StopIcon width="32" />
+            </ActionButton>
+            <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+              <Text>Pausar</Text>
+              <PauseIcon width="32" />
+            </ActionButton>
+          </View>
+          <ActionButton onPress={startForegroundUpdate}>
+            <Text>Iniciar</Text>
+            <PlayIcon width="32" />
+          </ActionButton>
+        </ContainerButtonView>
+      </ContainerView>
+    </>
   );
 }

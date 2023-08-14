@@ -1,7 +1,16 @@
 import styled from "styled-components/native";
 
+export const HeaderView = styled.View`
+  background-color: ${({theme}) => theme.colors.primary};
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+`
+
 export const ContainerView = styled.View`
   flex: 1;
+  padding: 16px
 `
 
 export const ContainerButtonView = styled.View`

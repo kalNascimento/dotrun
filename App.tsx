@@ -1,27 +1,28 @@
 import 'react-native-gesture-handler';
-import { BodyTemplate } from './src/components/bodyTemplate';
-import { Home } from './src/screens/home';
-import { View, StyleSheet } from 'react-native';
+import { ThemeProvider } from 'styled-components';
+import { SafeAreaView, StatusBar } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import PersonIcon from './assets/person.svg'
-import LogoIcon from './assets/dotRUN.svg'
-import MenuIcon from './assets/menu.svg'
+import { Home } from './src/screens/home';
 import { Auth } from './src/screens/auth';
 
-const header = () => {
-  return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-      <PersonIcon width="24" />
-      <LogoIcon width="48" />
-      <MenuIcon width="24" />
-    </View>
-  )
-}
+import { theme } from './src/theme/Theme';
+import { NavigationContainer } from '@react-navigation/native';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <BodyTemplate>
-      <Auth></Auth>
-    </BodyTemplate>
+    <ThemeProvider theme={theme}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Auth" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Auth" component={Auth} />
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
