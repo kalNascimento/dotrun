@@ -11,4 +11,11 @@ export const Input = styled.TextInput`
   font-size: ${({ theme }) => theme.fontSize.md};
   padding: 8px 16px;
   border-radius: 4px;
-`;
+`
+
+export const ErrorText = styled.Text`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({theme}) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.white};
+  margin: 4px 8px;
+`

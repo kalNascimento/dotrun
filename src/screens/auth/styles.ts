@@ -1,15 +1,16 @@
 import styled from "styled-components/native";
 
-export const MainView = styled.View`
+export const MainView = styled.ScrollView`
   background-color: ${({theme}) => theme.colors.primary};
   flex: 1;
   padding: 16px 0;
 `
 
 export const LogoView = styled.View`
-  flex: 2;
+  flex: 4;
   justify-content: center;
   align-items: center;
+  height: 144px;
 `
 
 export const FormView = styled.View`
@@ -21,6 +22,7 @@ export const FormView = styled.View`
 export const AuthEmailView = styled.View`
   flex: 4;
   justify-content: space-between;
+  gap: 48px;
 `
 
 export const AuthInputContainerView = styled.View`
@@ -29,8 +31,8 @@ export const AuthInputContainerView = styled.View`
 
 export const AuthSocialView = styled.View`
   flex: 3;
-  gap: 32px;
   align-items: center;
+  gap: 32px;
   padding: 16px;
 `
 

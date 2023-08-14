@@ -27,6 +27,7 @@ export const theme = {
     title: '#202020',
     text: '#414141',
     textLight: '#FAFAFA',
+    placeholder: '#737373',
   },
   shadow: {
     shadowColor: "#202020",
