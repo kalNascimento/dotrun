@@ -4,6 +4,8 @@ import { OutlineActionButton } from '../../components/buttons/outlineActionButto
 
 import { useForm, SubmitHandler } from "react-hook-form"
 
+import { signInWithEmailAndPassword  } from "firebase/auth";
+
 import {
   AuthEmailView,
   AuthSocialView,
@@ -21,18 +23,35 @@ import GoogleIcon from '../../../assets/google_group.svg'
 import TwitterIcon from '../../../assets/twitter_group.svg'
 import { CustomPasswordInput } from '../../components/inputs/customPasswordInput';
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
+
+import { auth } from '../../common/config/firebase';
+
+interface IUser {
+  email: string,
+  password: string
+}
 
 export function Auth() {
   const {
     control,
     handleSubmit,
-  } = useForm<FormData>();
+  } = useForm<IUser>();
 
   const navigation = useNavigation();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    navigation.navigate('Home' as never)
+  const onSubmit: SubmitHandler<IUser> = (user) => {
+    signInWithEmailAndPassword(auth, user.email, user.password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        navigation.navigate('Home' as never)
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage)
+      });
   };
 
   const emailRules = {
@@ -45,7 +64,7 @@ export function Auth() {
 
   return (
     <MainView contentContainerStyle={{ flexGrow: 1, paddingTop: 32 }}>
-      <KeyboardAvoidingView behavior={'padding'} style={{flex: 1}}>
+      <KeyboardAvoidingView behavior={'padding'} style={{ flex: 1 }}>
         <LogoView>
           <LogoIcon width="128" height="128" />
         </LogoView>

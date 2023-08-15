@@ -22,6 +22,8 @@ import { Timer } from './stopwatch';
 import { AnchorButton } from '../../components/buttons/anchorButton';
 import { useNavigation } from '@react-navigation/native';
 
+import { getAuth } from "firebase/auth";
+
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
 const DISTANCE_INTERVAL = 2;
