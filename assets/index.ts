@@ -1,0 +1,11 @@
+export { default as LogoIcon } from './images/dotRUN.svg';
+export { default as FacebookIcon } from './images/facebook_logo.svg';
+export { default as GoogleIcon } from './images/google_group.svg';
+export { default as TwitterIcon } from './images/twitter_group.svg';
+export { default as PersonIcon } from './images/person.svg';
+export { default as LogoutIcon } from './images/logout.svg';
+export { default as StopIcon } from './images/square.svg';
+export { default as PauseIcon } from './images/pause.svg';
+export { default as PlayIcon } from './images/play.svg';
+export { default as MarkerIcon } from './images/marker.svg';
+export { default as MenuIcon } from './images/menu.svg';
