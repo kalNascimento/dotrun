@@ -32,7 +32,7 @@ export function Auth() {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     console.log(data);
-    navigation.navigate('Home')
+    navigation.navigate('Home' as never)
   };
 
   const emailRules = {

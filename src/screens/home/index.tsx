@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 
 import * as Location from 'expo-location';
 import { RouteMapView } from "./routeMapView";
@@ -16,20 +16,27 @@ import PauseIcon from '../../../assets/pause.svg'
 import PlayIcon from '../../../assets/play.svg'
 import PersonIcon from '../../../assets/person.svg'
 import LogoIcon from '../../../assets/dotRUN.svg'
-import MenuIcon from '../../../assets/menu.svg'
+import LogOutIcon from '../../../assets/logout.svg'
 
 import { Timer } from './stopwatch';
+import { AnchorButton } from '../../components/buttons/anchorButton';
+import { useNavigation } from '@react-navigation/native';
 
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
 const DISTANCE_INTERVAL = 2;
 
 const Header = () => {
+  const navigation = useNavigation();
+
   return (
     <HeaderView>
-      <PersonIcon width="32" height="32" />
+      <PersonIcon width="24" height="24" />
       <LogoIcon width="48" />
-      <MenuIcon width="32" height="32" />
+      <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
+        <LogOutIcon width="24" height="24" />
+      </AnchorButton>
+      
     </HeaderView>
   )
 }
@@ -112,7 +119,7 @@ export function Home() {
 
   return (
     <>
-      <Header></Header>
+      <Header />
       <ContainerView>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
