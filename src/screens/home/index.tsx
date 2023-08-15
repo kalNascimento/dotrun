@@ -1,28 +1,31 @@
 import { useEffect, useState } from 'react';
-import { View, Text, Button } from 'react-native';
-
-import * as Location from 'expo-location';
-import { RouteMapView } from "./routeMapView";
-
-import { ActionButton } from "../../components/buttons/actionButton";
-
-import { ContainerButtonView, ContainerView, HeaderView } from "./styles";
-
-import { ICoordinates } from './types';
-import { TotalDistance } from './totalDistance';
-
-import StopIcon from '../../../assets/square.svg'
-import PauseIcon from '../../../assets/pause.svg'
-import PlayIcon from '../../../assets/play.svg'
-import PersonIcon from '../../../assets/person.svg'
-import LogoIcon from '../../../assets/dotRUN.svg'
-import LogOutIcon from '../../../assets/logout.svg'
-
-import { Timer } from './stopwatch';
-import { AnchorButton } from '../../components/buttons/anchorButton';
+import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { getAuth } from "firebase/auth";
+import * as Location from 'expo-location';
+
+import { TotalDistance } from './totalDistance';
+import { RouteMapView } from "./routeMapView";
+import { Timer } from './stopwatch';
+import { CustomButton } from "../../components/buttons/customButton";
+import { AnchorButton } from '../../components/buttons/anchorButton';
+
+import { ICoordinates } from './types';
+
+import { 
+  ContainerButtonView, 
+  ContainerView, 
+  HeaderView 
+} from "./styles";
+
+import { 
+  LogoIcon, 
+  LogoutIcon, 
+  PauseIcon, 
+  PersonIcon, 
+  PlayIcon, 
+  StopIcon 
+} from '../../../assets';
 
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
@@ -36,9 +39,8 @@ const Header = () => {
       <PersonIcon width="24" height="24" />
       <LogoIcon width="48" />
       <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
-        <LogOutIcon width="24" height="24" />
+        <LogoutIcon width="24" height="24" />
       </AnchorButton>
-      
     </HeaderView>
   )
 }
@@ -131,19 +133,19 @@ export function Home() {
         <RouteMapView coordinate={coordinates} positionHistory={positions} />
         <ContainerButtonView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+            <CustomButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
               <Text>Parar</Text>
               <StopIcon width="32" />
-            </ActionButton>
-            <ActionButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+            </CustomButton>
+            <CustomButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
               <Text>Pausar</Text>
               <PauseIcon width="32" />
-            </ActionButton>
+            </CustomButton>
           </View>
-          <ActionButton onPress={startForegroundUpdate}>
+          <CustomButton onPress={startForegroundUpdate}>
             <Text>Iniciar</Text>
             <PlayIcon width="32" />
-          </ActionButton>
+          </CustomButton>
         </ContainerButtonView>
       </ContainerView>
     </>

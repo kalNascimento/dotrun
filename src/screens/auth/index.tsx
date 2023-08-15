@@ -1,10 +1,14 @@
 import { KeyboardAvoidingView } from 'react-native';
-import { CustomTextInput } from '../../components/inputs/customTextInput';
-import { OutlineActionButton } from '../../components/buttons/outlineActionButton';
-
 import { useForm, SubmitHandler } from "react-hook-form"
 
+import { CustomTextInput } from '../../components/inputs/customTextInput';
+import { CustomOutlineButton } from '../../components/buttons/customOutlineButton';
+
+import { CustomPasswordInput } from '../../components/inputs/customPasswordInput';
+import { useNavigation } from '@react-navigation/native';
+
 import { signInWithEmailAndPassword  } from "firebase/auth";
+import { auth } from '../../common/config/firebase';
 
 import {
   AuthEmailView,
@@ -17,15 +21,12 @@ import {
   ContentText,
 } from './styles';
 
-import LogoIcon from '../../../assets/dotRUN.svg'
-import FacebookIcon from '../../../assets/facebook_logo.svg'
-import GoogleIcon from '../../../assets/google_group.svg'
-import TwitterIcon from '../../../assets/twitter_group.svg'
-import { CustomPasswordInput } from '../../components/inputs/customPasswordInput';
-import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
-
-import { auth } from '../../common/config/firebase';
+import { 
+  FacebookIcon, 
+  GoogleIcon, 
+  LogoIcon, 
+  TwitterIcon 
+} from '../../../assets';
 
 interface IUser {
   email: string,
@@ -44,13 +45,13 @@ export function Auth() {
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
         // Signed in 
-        const user = userCredential.user;
+        //const user = userCredential.user;
         navigation.navigate('Home' as never)
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage)
+        console.log(errorMessage, errorCode)
       });
   };
 
@@ -86,9 +87,9 @@ export function Auth() {
                 name="password"
               />
             </AuthInputContainerView>
-            <OutlineActionButton onPress={handleSubmit(onSubmit)}>
+            <CustomOutlineButton onPress={handleSubmit(onSubmit)}>
               Login
-            </OutlineActionButton>
+            </CustomOutlineButton>
           </AuthEmailView>
           <AuthSocialView>
             <ContentText>OU</ContentText>
