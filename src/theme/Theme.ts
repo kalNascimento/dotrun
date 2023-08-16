@@ -1,6 +1,9 @@
 export const theme = {
   colors: {
-    primary: '#007A4F',
+    primary: {
+      main: '#007A4F',
+      hover: '#025A3A',
+    },
     secondary: '#002B7A',
     feedback: {
       success: '#2DD36F',

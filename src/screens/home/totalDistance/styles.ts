@@ -5,7 +5,7 @@ export const DisplayView = styled.View`
 `
 
 export const DisplayText = styled.Text`
-  color: ${({theme}) => theme.colors.primary};
+  color: ${({theme}) => theme.colors.primary.main};
   font-size: ${({theme}) => theme.fontSize.md};
   font-weight: ${({theme}) => theme.fontWeight.bold};
 `

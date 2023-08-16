@@ -6,7 +6,7 @@ import { CustomOutlineButton } from '../../../components/buttons/customOutlineBu
 import { CustomPasswordInput } from '../../../components/inputs/customPasswordInput';
 import { useNavigation } from '@react-navigation/native';
 
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../../common/config/firebase';
 
 import {
@@ -23,7 +23,8 @@ import { LogoIcon } from "../../../../assets";
 
 interface IUser {
   email: string,
-  password: string
+  password: string,
+  confirmPassword: string
 }
 
 export function RegisterForm() {
@@ -35,11 +36,11 @@ export function RegisterForm() {
   const navigation = useNavigation();
 
   const onSubmit: SubmitHandler<IUser> = (user) => {
-    signInWithEmailAndPassword(auth, user.email, user.password)
+    const isSamePassword = user.password === user.confirmPassword
+
+    isSamePassword && createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
-        // Signed in 
-        //const user = userCredential.user;
-        navigation.navigate('Home' as never)
+        navigation.navigate('Login' as never)
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -84,7 +85,7 @@ export function RegisterForm() {
                 control={control}
                 label="Confirme a senha"
                 placeholder='••••••••'
-                name="password"
+                name="confirmPassword"
               />
             </AuthInputContainerView>
             <CustomOutlineButton onPress={handleSubmit(onSubmit)}>

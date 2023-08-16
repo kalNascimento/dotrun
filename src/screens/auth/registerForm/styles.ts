@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const MainView = styled.ScrollView`
-  background-color: ${({theme}) => theme.colors.primary};
+  background-color: ${({theme}) => theme.colors.primary.main};
   flex: 1;
   padding: 16px 0;
 `
@@ -13,7 +13,7 @@ export const LogoView = styled.View`
 `
 
 export const FormView = styled.View`
-  background-color: ${({theme}) => theme.colors.primary};
+  background-color: ${({theme}) => theme.colors.primary.main};
   flex: 6;
   gap: 32px;
   padding: 16px;

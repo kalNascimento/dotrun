@@ -29,7 +29,7 @@ const options = {
   },
   text: {
     fontSize: 16,
-    color: theme.colors.primary,
+    color: theme.colors.primary.main,
     fontWeight: theme.fontWeight.bold
   },
 };

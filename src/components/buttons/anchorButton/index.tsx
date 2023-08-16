@@ -16,7 +16,7 @@ export function AnchorButton({
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={1}
-        underlayColor="#025A3A">
+        underlayColor={theme.colors.primary.hover}>
         <ButtonContentView>
           { children }
         </ButtonContentView>
