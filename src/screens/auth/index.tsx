@@ -75,7 +75,7 @@ export function Auth() {
               <CustomTextInput
                 control={control}
                 label='E-mail'
-                placeholder='exeplo@exeplo.com.br'
+                placeholder='exemplo@exemplo.com.br'
                 name='email'
                 rules={emailRules}
               />
