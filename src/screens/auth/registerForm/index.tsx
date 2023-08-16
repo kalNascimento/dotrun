@@ -39,7 +39,7 @@ export function RegisterForm() {
   const onSubmit: SubmitHandler<IUser> = (user) => {
     const test = user.password === user.confirmPassword
     setIsSamePassword(test)
-    console.log(isSamePassword)
+
     isSamePassword && createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
         navigation.navigate('Login' as never)
