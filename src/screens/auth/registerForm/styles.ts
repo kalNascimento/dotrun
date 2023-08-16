@@ -45,3 +45,10 @@ export const ContentText = styled.Text`
   font-size: ${({theme}) => theme.fontSize.sm};
   text-align: center;
 `
+
+export const ErrorText = styled.Text`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({theme}) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.white};
+  margin: 4px 8px;
+`

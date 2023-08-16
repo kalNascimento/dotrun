@@ -16,10 +16,12 @@ import {
   ContentText,
   MainView,
   LogoView,
+  ErrorText,
 } from './styles';
 import { AnchorButton } from "../../../components/buttons/anchorButton";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, View } from "react-native";
 import { LogoIcon } from "../../../../assets";
+import { useState } from "react";
 
 interface IUser {
   email: string,
@@ -28,24 +30,22 @@ interface IUser {
 }
 
 export function RegisterForm() {
-  const {
-    control,
-    handleSubmit,
-  } = useForm<IUser>();
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const [isSamePassword, setIsSamePassword] = useState<boolean>();
+  const { control, handleSubmit } = useForm<IUser>();
 
   const navigation = useNavigation();
 
   const onSubmit: SubmitHandler<IUser> = (user) => {
-    const isSamePassword = user.password === user.confirmPassword
-
+    const test = user.password === user.confirmPassword
+    setIsSamePassword(test)
+    console.log(isSamePassword)
     isSamePassword && createUserWithEmailAndPassword(auth, user.email, user.password)
       .then((userCredential) => {
         navigation.navigate('Login' as never)
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage, errorCode)
+        error.code && setErrorMsg('Não foi possível cadastrar um usuário com esses dados')
       });
   };
 
@@ -88,9 +88,17 @@ export function RegisterForm() {
                 name="confirmPassword"
               />
             </AuthInputContainerView>
-            <CustomOutlineButton onPress={handleSubmit(onSubmit)}>
-              Cadastrar
-            </CustomOutlineButton>
+            <View>
+              <CustomOutlineButton onPress={handleSubmit(onSubmit)}>
+                Cadastrar
+              </CustomOutlineButton>
+              {!!errorMsg &&
+                <ErrorText>{errorMsg}</ErrorText>
+              }
+              {isSamePassword == false &&
+                <ErrorText>Senha e confirmar senha precisam ser iguais</ErrorText>
+              }
+            </View>
             <AnchorButton onPress={() => navigation.navigate('Login' as never)}>
               <ContentText>Não tem uma conta? Cadastre-se</ContentText>
             </AnchorButton>

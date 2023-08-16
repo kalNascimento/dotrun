@@ -21,7 +21,6 @@ export const FormView = styled.View`
 
 export const AuthEmailView = styled.View`
   flex: 4;
-  justify-content: space-between;
   gap: 48px;
 `
 
@@ -44,4 +43,10 @@ export const AuthSocialContainerView = styled.View`
 export const ContentText = styled.Text`
   color: ${({theme}) => theme.fontColor.textLight};
   font-size: ${({theme}) => theme.fontSize.sm};
+`
+export const ErrorText = styled.Text`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({theme}) => theme.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.white};
+  margin: 4px 8px;
 `

@@ -18,6 +18,7 @@ import {
   AuthInputContainerView,
   AuthSocialContainerView,
   ContentText,
+  ErrorText,
 } from './styles';
 
 import {
@@ -27,7 +28,8 @@ import {
   TwitterIcon
 } from '../../../../assets';
 import { AnchorButton } from "../../../components/buttons/anchorButton";
-import { KeyboardAvoidingView } from "react-native";
+import { KeyboardAvoidingView, View } from "react-native";
+import { useState } from "react";
 
 interface IUser {
   email: string,
@@ -35,10 +37,8 @@ interface IUser {
 }
 
 export function LoginForm() {
-  const {
-    control,
-    handleSubmit,
-  } = useForm<IUser>();
+  const [errorMsg, setErrorMsg] = useState<string>('');
+  const { control, handleSubmit } = useForm<IUser>();
 
   const navigation = useNavigation();
 
@@ -50,9 +50,7 @@ export function LoginForm() {
         navigation.navigate('Home' as never)
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage, errorCode)
+        error.code && setErrorMsg('Usuário e/ou senha incorretos, tente novamente')
       });
   };
 
@@ -88,9 +86,12 @@ export function LoginForm() {
                 name="password"
               />
             </AuthInputContainerView>
-            <CustomOutlineButton onPress={handleSubmit(onSubmit)}>
-              Login
-            </CustomOutlineButton>
+            <View>
+              <CustomOutlineButton onPress={handleSubmit(onSubmit)}>
+                Login
+              </CustomOutlineButton>
+              <ErrorText>{errorMsg}</ErrorText>
+            </View>
           </AuthEmailView>
           <AuthSocialView>
             <ContentText>OU</ContentText>
@@ -102,6 +103,7 @@ export function LoginForm() {
             <AnchorButton onPress={() => navigation.navigate('Register' as never)}>
               <ContentText>Não tem uma conta? Cadastre-se</ContentText>
             </AnchorButton>
+
           </AuthSocialView>
         </FormView>
       </KeyboardAvoidingView>
