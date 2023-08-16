@@ -5,7 +5,7 @@ export const HeaderView = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 16px 0;
 `
 
 export const ContainerView = styled.View`

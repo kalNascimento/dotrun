@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler';
-import { ThemeProvider } from 'styled-components';
 import { SafeAreaView, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+
+import { ThemeProvider } from 'styled-components';
 
 import { AppRoute } from './src/routes/AppRoute';
 
@@ -11,7 +13,9 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
-        <AppRoute />
+        <NavigationContainer>
+          <AppRoute />
+        </NavigationContainer>
       </SafeAreaView>
     </ThemeProvider>
   );

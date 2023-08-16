@@ -12,19 +12,19 @@ import { AnchorButton } from '../../components/buttons/anchorButton';
 
 import { ICoordinates } from './types';
 
-import { 
-  ContainerButtonView, 
-  ContainerView, 
-  HeaderView 
+import {
+  ContainerButtonView,
+  ContainerView,
+  HeaderView
 } from "./styles";
 
-import { 
-  LogoIcon, 
-  LogoutIcon, 
-  PauseIcon, 
-  PersonIcon, 
-  PlayIcon, 
-  StopIcon 
+import {
+  LogoIcon,
+  LogoutIcon,
+  PauseIcon,
+  PersonIcon,
+  PlayIcon,
+  StopIcon
 } from '../../../assets';
 
 const TIME_INTERVAL = 1000;
@@ -36,7 +36,9 @@ const Header = () => {
 
   return (
     <HeaderView>
-      <PersonIcon width="24" height="24" />
+      <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
+        <PersonIcon width="24" height="24" />
+      </AnchorButton>
       <LogoIcon width="48" />
       <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
         <LogoutIcon width="24" height="24" />

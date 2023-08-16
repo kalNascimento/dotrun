@@ -7,13 +7,13 @@ export const MainView = styled.ScrollView`
 `
 
 export const LogoView = styled.View`
-  flex: 4;
   justify-content: center;
   align-items: center;
   height: 144px;
 `
 
 export const FormView = styled.View`
+  background-color: ${({theme}) => theme.colors.primary};
   flex: 6;
   gap: 32px;
   padding: 16px;
@@ -44,10 +44,4 @@ export const AuthSocialContainerView = styled.View`
 export const ContentText = styled.Text`
   color: ${({theme}) => theme.fontColor.textLight};
   font-size: ${({theme}) => theme.fontSize.sm};
-`
-
-export const Input = styled.TextInput`
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 15px;
 `

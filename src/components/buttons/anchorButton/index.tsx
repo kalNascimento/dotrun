@@ -3,7 +3,7 @@ import { TouchableHighlight, View } from "react-native";
 
 import { CustomButtonProps } from "../types";
 
-import { ButtonView } from "./styles";
+import { ButtonContentView, ButtonView } from "./styles";
 import { theme } from "../../../theme/Theme";
 
 export function AnchorButton({
@@ -12,14 +12,14 @@ export function AnchorButton({
   children
 }: PropsWithChildren<CustomButtonProps>) {
   return (
-    <ButtonView style={[theme.shadow, style]}>
+    <ButtonView style={style}>
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={1}
         underlayColor="#025A3A">
-        <View>
+        <ButtonContentView>
           { children }
-        </View>
+        </ButtonContentView>
       </TouchableHighlight>
     </ButtonView>
   );
