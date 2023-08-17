@@ -1,7 +1,10 @@
+import { KeyboardAvoidingView, View } from "react-native";
 import { useForm, SubmitHandler } from "react-hook-form"
+import { useState } from "react";
 
 import { CustomTextInput } from '../../../components/inputs/customTextInput';
 import { CustomOutlineButton } from '../../../components/buttons/customOutlineButton';
+import { AnchorButton } from "../../../components/buttons/anchorButton";
 
 import { CustomPasswordInput } from '../../../components/inputs/customPasswordInput';
 import { useNavigation } from '@react-navigation/native';
@@ -18,16 +21,10 @@ import {
   LogoView,
   ErrorText,
 } from './styles';
-import { AnchorButton } from "../../../components/buttons/anchorButton";
-import { KeyboardAvoidingView, View } from "react-native";
-import { LogoIcon } from "../../../../assets";
-import { useState } from "react";
 
-interface IUser {
-  email: string,
-  password: string,
-  confirmPassword: string
-}
+import { LogoIcon } from "../../../../assets";
+
+import { IUser } from "../types";
 
 export function RegisterForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');

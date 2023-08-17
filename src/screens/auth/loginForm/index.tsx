@@ -1,7 +1,10 @@
+import { KeyboardAvoidingView, View } from "react-native";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { CustomTextInput } from '../../../components/inputs/customTextInput';
 import { CustomOutlineButton } from '../../../components/buttons/customOutlineButton';
+import { AnchorButton } from "../../../components/buttons/anchorButton";
 
 import { CustomPasswordInput } from '../../../components/inputs/customPasswordInput';
 import { useNavigation } from '@react-navigation/native';
@@ -27,14 +30,8 @@ import {
   LogoIcon,
   TwitterIcon
 } from '../../../../assets';
-import { AnchorButton } from "../../../components/buttons/anchorButton";
-import { KeyboardAvoidingView, View } from "react-native";
-import { useState } from "react";
 
-interface IUser {
-  email: string,
-  password: string
-}
+import { IUser } from "../types";
 
 export function LoginForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');
