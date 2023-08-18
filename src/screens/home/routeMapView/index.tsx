@@ -1,6 +1,6 @@
 import MapView from 'react-native-maps';
 
-import { RouteMarker } from '../routerMarker';
+import { RouteMarker } from '../RouterMarker';
 
 import { ContainerMap } from './styles';
 import { theme } from '../../../theme/Theme';

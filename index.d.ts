@@ -3,4 +3,4 @@ declare module "*.svg" {
   export default content;
 }
 
-declare module "react-native-stopwatch-timer"
+declare module "react-native-stopwatch-timer";
