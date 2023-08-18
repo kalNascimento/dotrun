@@ -189,12 +189,12 @@ export function Home() {
               <Text>Parar</Text>
               <StopIcon width="32" />
             </CustomButton>
-            <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
+            <CustomButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
               <Text>Pausar</Text>
               <PauseIcon width="32" />
             </CustomButton>
           </View>
-          <CustomButton onPress={startBackgroundUpdate}>
+          <CustomButton onPress={startForegroundUpdate}>
             <Text>Iniciar</Text>
             <PlayIcon width="32" />
           </CustomButton>
