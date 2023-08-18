@@ -2,11 +2,11 @@ import { KeyboardAvoidingView, View } from "react-native";
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from "react";
 
-import { CustomTextInput } from '../../../components/inputs/CustomTextInput';
-import { CustomOutlineButton } from '../../../components/buttons/CustomOutlineButton';
+import { CustomTextInput } from "../../../components/inputs/CustomTextInput";
+import { CustomPasswordInput } from "../../../components/inputs/CustomPasswordInput";
+import { CustomOutlineButton } from "../../../components/buttons/CustomOutlineButton";
 import { AnchorButton } from "../../../components/buttons/AnchorButton";
 
-import { CustomPasswordInput } from '../../../components/inputs/CustomPasswordInput';
 import { useNavigation } from '@react-navigation/native';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
