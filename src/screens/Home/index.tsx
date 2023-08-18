@@ -7,9 +7,9 @@ import * as Location from 'expo-location';
 import * as TaskManager from "expo-task-manager"
 
 import { TotalDistance } from './TotalDistance';
-import { RouteMapView } from "./RouteMapView";
-import { Timer } from './Stopwatch';
-import { CustomButton } from "../../components/buttons/CustomButton";
+import { RouteMapView } from './RouteMapView';
+import { Timer } from './Timer';
+import { CustomButton } from '../../components/buttons/CustomButton';
 import { AnchorButton } from '../../components/buttons/AnchorButton';
 
 import { ICoordinates } from './types';
