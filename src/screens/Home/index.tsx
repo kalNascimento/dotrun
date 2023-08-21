@@ -66,11 +66,6 @@ export function Home() {
   useEffect(() => {
     const requestPermissions = async () => {
       const foreground = await Location.requestForegroundPermissionsAsync()
-      if (foreground.granted) {
-        const background = await Location.requestBackgroundPermissionsAsync()
-
-
-      }
 
       stopForegroundUpdate();
     }
@@ -131,11 +126,38 @@ export function Home() {
   let foregroundSubscription: any = null
 
   // Codigo para rastrear em background
-  const startBackgroundUpdate = async () => {
-    const { granted } = await Location.getBackgroundPermissionsAsync()
-    if (!granted) {
-      console.log("location tracking denied")
+
+  TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+    if (error) {
+      console.error(error)
       return
+    }
+    if (data) {
+      // Extract location coordinates from data
+      const { locations } = data
+      const location = locations[0]
+      if (location) {
+        console.log(location.coords.latitude)
+        console.log(location.coords.longitude)
+        setIsPositionUpdating(true);
+        setCoordinates({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+        })
+      }
+    }
+  })
+
+  const startBackgroundUpdate = async () => {
+    const background = await Location.requestBackgroundPermissionsAsync()
+    setPositions([])
+    
+    if (background) {
+      const { granted } = await Location.getBackgroundPermissionsAsync()
+      if (!granted) {
+        console.log("location tracking denied")
+        return
+      }
     }
 
     const isTaskDefined = await TaskManager.isTaskDefined(LOCATION_TASK_NAME)
@@ -153,7 +175,9 @@ export function Home() {
     }
 
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-      accuracy: Location.Accuracy.BestForNavigation,
+      accuracy: Location.Accuracy.Highest,
+      timeInterval: TIME_INTERVAL,
+      distanceInterval: DISTANCE_INTERVAL,
       showsBackgroundLocationIndicator: true,
       foregroundService: {
         notificationTitle: "Location",
@@ -164,6 +188,10 @@ export function Home() {
   }
 
   const stopBackgroundUpdate = async () => {
+    setIsPositionUpdating(false);
+
+    setIsTimerStart(false);
+    
     const hasStarted = await Location.hasStartedLocationUpdatesAsync(
       LOCATION_TASK_NAME
     )
@@ -189,12 +217,12 @@ export function Home() {
               <Text>Parar</Text>
               <StopIcon width="32" />
             </CustomButton>
-            <CustomButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+            <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
               <Text>Pausar</Text>
               <PauseIcon width="32" />
             </CustomButton>
           </View>
-          <CustomButton onPress={startForegroundUpdate}>
+          <CustomButton onPress={startBackgroundUpdate}>
             <Text>Iniciar</Text>
             <PlayIcon width="32" />
           </CustomButton>

@@ -8,6 +8,7 @@ import { AppRoute } from './src/routes/AppRoute';
 
 import { theme } from './src/theme/Theme';
 
+
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
