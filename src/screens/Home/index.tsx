@@ -29,7 +29,8 @@ import {
   StopIcon
 } from '../../../assets';
 
-const LOCATION_TASK_NAME = "LOCATION_TASK_NAME"
+const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
+const ACCURACY = Location.Accuracy.Highest;
 const TIME_INTERVAL = 1000;
 const DEFAULT_POSITION = 1;
 const DISTANCE_INTERVAL = 2;
@@ -66,8 +67,10 @@ export function Home() {
   useEffect(() => {
     const requestPermissions = async () => {
       const foreground = await Location.requestForegroundPermissionsAsync()
+      if (foreground.granted)
+        await Location.requestBackgroundPermissionsAsync();
 
-      stopForegroundUpdate();
+      stopBackgroundUpdate();
     }
     requestPermissions()
   }, []);
@@ -81,88 +84,44 @@ export function Home() {
     }
   }, [coordinates])
 
-  const startForegroundUpdate = async () => {
-    const { granted } = await Location.getForegroundPermissionsAsync()
-    if (!granted) {
-      setErrorMsg("Permissão para rastrear de localização negada")
-      return
-    }
-    setPositions([])
-
-    setIsTimerStart(!isTimerStart);
-    setResetTimer(false);
-
-    foregroundSubscription?.remove()
-    setIsPositionUpdating(true);
-    foregroundSubscription = await Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.Highest,
-        timeInterval: TIME_INTERVAL,
-        distanceInterval: DISTANCE_INTERVAL,
-      },
-      location => {
-        setCoordinates({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        })
-      }
-    )
-  }
-
-  const stopForegroundUpdate = async () => {
-    setIsPositionUpdating(false);
-
-    setIsTimerStart(false);
-
-    foregroundSubscription?.remove()
-
-    const location = await Location.getLastKnownPositionAsync({});
-    setCoordinates({
-      latitude: location?.coords.latitude ?? DEFAULT_POSITION,
-      longitude: location?.coords.longitude ?? DEFAULT_POSITION,
-    });
-  }
-
-  let foregroundSubscription: any = null
-
-  // Codigo para rastrear em background
-
-  TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+  TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     if (error) {
-      console.error(error)
-      return
+      console.error(error);
+      return;
     }
     if (data) {
-      // Extract location coordinates from data
-      const { locations } = data
-      const location = locations[0]
+      const { locations }: any = data;
+      const location = locations[0];
       if (location) {
-        console.log(location.coords.latitude)
-        console.log(location.coords.longitude)
+        console.log(location.coords.latitude);
+        console.log(location.coords.longitude);
         setIsPositionUpdating(true);
         setCoordinates({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-        })
+        });
       }
     }
-  })
+  });
 
   const startBackgroundUpdate = async () => {
     const background = await Location.requestBackgroundPermissionsAsync()
-    setPositions([])
     
+    setPositions([]);
+    setIsTimerStart(true);
+    setResetTimer(false);
+
     if (background) {
       const { granted } = await Location.getBackgroundPermissionsAsync()
       if (!granted) {
-        console.log("location tracking denied")
+        console.log("Acesso a localização negado")
         return
       }
     }
 
     const isTaskDefined = await TaskManager.isTaskDefined(LOCATION_TASK_NAME)
     if (!isTaskDefined) {
-      console.log("Task is not defined")
+      console.log("Tarefa em segundo plano não definida")
       return
     }
 
@@ -170,34 +129,34 @@ export function Home() {
       LOCATION_TASK_NAME
     )
     if (hasStarted) {
-      console.log("Already started")
+      console.log("Rastreio em segundo plano já foi iniciado")
       return
     }
 
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-      accuracy: Location.Accuracy.Highest,
+      accuracy: ACCURACY,
       timeInterval: TIME_INTERVAL,
       distanceInterval: DISTANCE_INTERVAL,
       showsBackgroundLocationIndicator: true,
       foregroundService: {
-        notificationTitle: "Location",
-        notificationBody: "Location tracking in background",
-        notificationColor: "#fff",
+        notificationTitle: "Localização",
+        notificationBody: "Rastreando localização em segundo plano",
+        notificationColor: "#F1F1F1",
       },
     })
   }
 
   const stopBackgroundUpdate = async () => {
-    setIsPositionUpdating(false);
-
-    setIsTimerStart(false);
     
+    setIsPositionUpdating(false);
+    setIsTimerStart(false);
+
     const hasStarted = await Location.hasStartedLocationUpdatesAsync(
       LOCATION_TASK_NAME
     )
     if (hasStarted) {
       await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME)
-      console.log("Location tacking stopped")
+      console.log("Rastreio em segundo plano foi desativado")
     }
   }
 
@@ -213,7 +172,7 @@ export function Home() {
         <RouteMapView coordinate={coordinates} positionHistory={positions} />
         <ContainerButtonView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <CustomButton onPress={stopForegroundUpdate} style={{ width: '42%' }}>
+            <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
               <Text>Parar</Text>
               <StopIcon width="32" />
             </CustomButton>
