@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { CustomTextInput } from "../../../components/inputs/CustomTextInput";
@@ -36,14 +36,19 @@ import { IUser } from "../types";
 export function LoginForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const { control, handleSubmit } = useForm<IUser>();
-
+  
   const navigation = useNavigation();
 
-  const onSubmit: SubmitHandler<IUser> = (user) => {
+  useEffect(() => {
+    const userState = auth.onAuthStateChanged((user) => {
+      user && navigation.navigate('Home' as never)
+    })
+    return userState;
+  }, [])
+  
+  const onSubmit: SubmitHandler<IUser> = async (user: IUser) => {
     signInWithEmailAndPassword(auth, user.email, user.password)
-      .then((userCredential) => {
-        // Signed in 
-        //const user = userCredential.user;
+      .then(() => {
         navigation.navigate('Home' as never)
       })
       .catch((error) => {
