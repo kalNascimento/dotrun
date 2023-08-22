@@ -6,8 +6,10 @@ import { ThemeProvider } from 'styled-components';
 
 import { AppRoute } from './src/routes/AppRoute';
 
-import { theme } from './src/theme/Theme';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './src/common/config/client';
 
+import { theme } from './src/theme/Theme';
 
 export default function App() {
   return (
@@ -15,7 +17,9 @@ export default function App() {
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
         <NavigationContainer>
-          <AppRoute />
+          <QueryClientProvider client={queryClient}>
+            <AppRoute />
+          </QueryClientProvider>
         </NavigationContainer>
       </SafeAreaView>
     </ThemeProvider>

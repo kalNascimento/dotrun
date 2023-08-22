@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { ParamListBase, useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
 
@@ -28,23 +28,30 @@ import {
   PlayIcon,
   StopIcon
 } from '../../../assets';
+import { auth } from '../../common/config/firebase';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
 const ACCURACY = Location.Accuracy.Highest;
-const TIME_INTERVAL = 1000;
+const TIME_INTERVAL = 6000;
 const DEFAULT_POSITION = 1;
-const DISTANCE_INTERVAL = 2;
+const DISTANCE_INTERVAL = 5;
 
 const Header = () => {
-  const navigation = useNavigation();
+  const navigation =  useNavigation<StackNavigationProp<ParamListBase>>()
+
+  const logout = () => {
+    auth.signOut();
+    navigation.navigate('Auth' as never);
+  }
 
   return (
     <HeaderView>
-      <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
+      <AnchorButton onPress={() => navigation.replace('Auth' as never)}>
         <PersonIcon width="24" height="24" />
       </AnchorButton>
       <LogoIcon width="48" />
-      <AnchorButton onPress={() => navigation.navigate('Auth' as never)}>
+      <AnchorButton onPress={logout}>
         <LogoutIcon width="24" height="24" />
       </AnchorButton>
     </HeaderView>
@@ -72,7 +79,9 @@ export function Home() {
 
       stopBackgroundUpdate();
     }
-    requestPermissions()
+
+    lastLocation();
+    requestPermissions();
   }, []);
 
   useEffect(() => {
@@ -93,8 +102,6 @@ export function Home() {
       const { locations }: any = data;
       const location = locations[0];
       if (location) {
-        console.log(location.coords.latitude);
-        console.log(location.coords.longitude);
         setIsPositionUpdating(true);
         setCoordinates({
           latitude: location.coords.latitude,
@@ -135,9 +142,9 @@ export function Home() {
 
     await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
       accuracy: ACCURACY,
-      timeInterval: TIME_INTERVAL,
-      distanceInterval: DISTANCE_INTERVAL,
       showsBackgroundLocationIndicator: true,
+      deferredUpdatesDistance: DISTANCE_INTERVAL,
+      deferredUpdatesTimeout: TIME_INTERVAL,
       foregroundService: {
         notificationTitle: "Localização",
         notificationBody: "Rastreando localização em segundo plano",
@@ -150,6 +157,8 @@ export function Home() {
     
     setIsPositionUpdating(false);
     setIsTimerStart(false);
+    setPositions([]);
+    setResetTimer(true);
 
     const hasStarted = await Location.hasStartedLocationUpdatesAsync(
       LOCATION_TASK_NAME
@@ -158,6 +167,27 @@ export function Home() {
       await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME)
       console.log("Rastreio em segundo plano foi desativado")
     }
+  }
+
+  const pauseBackgroundUpdate = async () => {
+    setIsPositionUpdating(false);
+    setIsTimerStart(false);
+
+    const hasStarted = await Location.hasStartedLocationUpdatesAsync(
+      LOCATION_TASK_NAME
+    )
+    if (hasStarted) {
+      await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME)
+      console.log("Rastreio em segundo plano foi pausado")
+    }
+  }
+
+  const lastLocation = async () => {
+    const location = await Location.getLastKnownPositionAsync({});
+    setCoordinates({
+      latitude: location?.coords.latitude ?? DEFAULT_POSITION,
+      longitude: location?.coords.longitude ?? DEFAULT_POSITION,
+    });
   }
 
   return (
@@ -176,7 +206,7 @@ export function Home() {
               <Text>Parar</Text>
               <StopIcon width="32" />
             </CustomButton>
-            <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
+            <CustomButton onPress={pauseBackgroundUpdate} style={{ width: '42%' }}>
               <Text>Pausar</Text>
               <PauseIcon width="32" />
             </CustomButton>
