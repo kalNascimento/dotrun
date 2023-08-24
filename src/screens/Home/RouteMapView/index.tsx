@@ -1,4 +1,4 @@
-import MapView from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 import { RouteMarker } from '../RouterMarker';
 
@@ -24,6 +24,7 @@ export function RouteMapView({
     <ContainerMap style={theme.shadow}>
       {!isObjectEmpty &&
         <MapView
+          provider={PROVIDER_GOOGLE}
           style={{ height: '100%' }}
           region={{
             ...coordinate,
