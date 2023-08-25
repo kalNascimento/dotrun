@@ -11,6 +11,7 @@
     "test:coverage": "jest --coverage=true"
   },
   "dependencies": {
+    "@babel/runtime": "^7.22.11",
     "@jest/types": "^29.6.3",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-navigation/drawer": "^6.6.3",
@@ -20,6 +21,7 @@
     "expo": "^49.0.8",
     "expo-dev-client": "~2.4.8",
     "expo-location": "~16.1.0",
+    "expo-modules-autolinking": "~1.5.0",
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
     "expo-task-manager": "~11.3.0",
@@ -41,6 +43,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.22.10",
+    "@babel/plugin-transform-arrow-functions": "^7.22.5",
+    "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.11",
+    "@babel/plugin-transform-optional-chaining": "^7.22.12",
+    "@babel/plugin-transform-shorthand-properties": "^7.22.5",
+    "@babel/plugin-transform-template-literals": "^7.22.5",
     "@babel/preset-env": "^7.22.10",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
