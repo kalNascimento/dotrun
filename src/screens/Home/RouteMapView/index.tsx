@@ -3,7 +3,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { RouteMarker } from '../RouterMarker';
 
 import { ContainerMap } from './styles';
-import { theme } from '../../../theme/Theme';
+import { theme } from '@theme/Theme';
 
 import { ICoordinates } from '../types';
 

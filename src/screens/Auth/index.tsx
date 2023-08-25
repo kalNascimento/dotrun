@@ -1,4 +1,4 @@
-import { AuthRoute } from '../../routes/AuthRoute';
+import { AuthRoute } from 'src/routes/AuthRoute';
 
 export function Auth() {
   return (

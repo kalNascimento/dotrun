@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { View, StyleSheet, TouchableHighlight, Text } from 'react-native';
+import { View } from 'react-native';
 import { Stopwatch } from 'react-native-stopwatch-timer'
 
-import { theme } from '../../../theme/Theme';
+import { theme } from '@theme/Theme';
 import { DisplayText } from '../Timer/styles';
 
 interface TimerProps {

@@ -2,15 +2,15 @@ import { KeyboardAvoidingView, View } from "react-native";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 
-import { CustomTextInput } from "../../../components/inputs/CustomTextInput";
-import { CustomPasswordInput } from "../../../components/inputs/CustomPasswordInput";
-import { CustomOutlineButton } from "../../../components/buttons/CustomOutlineButton";
-import { AnchorButton } from "../../../components/buttons/AnchorButton";
+import { CustomTextInput } from "@inputs/CustomTextInput";
+import { CustomPasswordInput } from "@inputs/CustomPasswordInput";
+import { CustomOutlineButton } from "@buttons/CustomOutlineButton";
+import { AnchorButton } from "@buttons/AnchorButton";
 
 import { useNavigation } from '@react-navigation/native';
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../../common/config/firebase';
+import { auth } from '@configs/firebase';
 
 import {
   MainView,
@@ -29,7 +29,7 @@ import {
   GoogleIcon,
   LogoIcon,
   TwitterIcon
-} from '../../../../assets';
+} from '@assets/icons';
 
 import { IUser } from "../types";
 
