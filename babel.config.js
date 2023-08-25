@@ -15,7 +15,28 @@ module.exports = function(api) {
         "safe": false,
         "allowUndefined": true,
         "verbose": false
-      }]
+      }],
+      [
+        'module-resolver',
+        {
+          root: ['./'],
+          extensions: [
+            '.ts',
+            '.tsx',
+            '.jsx',
+            '.js',
+            '.json',
+          ],
+          alias: {
+            '@buttons': './src/components/buttons',
+            '@inputs': './src/components/inputs',
+            '@configs': './src/common/configs',
+            '@hooks': './src/hooks',
+            '@theme': './src/theme',
+            '@assets': './assets',
+          },
+        },
+      ],
     ],
   };
 };

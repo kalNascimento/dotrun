@@ -2,6 +2,15 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "types": ["jest"]
+    "types": ["jest"],
+    "baseUrl": "./",
+    "paths": {
+      "@buttons/*": ["./src/components/buttons/*"],
+      "@inputs/*": ["./src/components/inputs/*"],
+      "@configs/*": ["./src/common/configs/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@theme/*": ["./src/theme/*"],
+      "@assets/*": ["./assets/*"],
+    },
   },
 }

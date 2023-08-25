@@ -6,11 +6,12 @@ import * as Location from 'expo-location';
 
 import * as TaskManager from "expo-task-manager"
 
+import { CustomButton } from '@buttons/CustomButton';
+import { AnchorButton } from '@buttons/AnchorButton';
+
 import { TotalDistance } from './TotalDistance';
 import { RouteMapView } from './RouteMapView';
 import { Timer } from './Timer';
-import { CustomButton } from '../../components/buttons/CustomButton';
-import { AnchorButton } from '../../components/buttons/AnchorButton';
 
 import { ICoordinates } from './types';
 
@@ -27,8 +28,9 @@ import {
   PersonIcon,
   PlayIcon,
   StopIcon
-} from '../../../assets';
-import { auth } from '../../common/config/firebase';
+} from '@assets/icons';
+
+import { auth } from '@configs/firebase';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"

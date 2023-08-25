@@ -1,8 +1,8 @@
 import { View } from 'react-native';
 import { Marker, Polyline } from 'react-native-maps';
 
-import { CustomMarker, CustomMarkerContent } from '../styles';
-import { theme } from '../../../theme/Theme';
+import { CustomMarker, CustomMarkerContent } from './styles';
+import { theme } from '@theme/Theme';
 
 import { ICoordinates } from '../types';
 

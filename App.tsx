@@ -7,9 +7,9 @@ import { ThemeProvider } from 'styled-components';
 import { AppRoute } from './src/routes/AppRoute';
 
 import { QueryClientProvider } from '@tanstack/react-query';
-import { queryClient } from './src/common/config/client';
+import { queryClient } from '@configs/client';
 
-import { theme } from './src/theme/Theme';
+import { theme } from '@theme/Theme';
 
 export default function App() {
   return (
