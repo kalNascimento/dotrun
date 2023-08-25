@@ -15,7 +15,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+
+# Tests
 android
+coverage
 
 # Metro
 .metro-health-check*
