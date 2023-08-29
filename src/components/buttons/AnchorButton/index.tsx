@@ -4,7 +4,7 @@ import { TouchableHighlight, View } from "react-native";
 import { CustomButtonProps } from "../types";
 
 import { ButtonContentView, ButtonView } from "./styles";
-import { theme } from "../../../theme/Theme";
+import { theme } from "@theme/Theme";
 
 export function AnchorButton({
   onPress,

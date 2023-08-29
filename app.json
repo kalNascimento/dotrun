@@ -33,7 +33,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDjAnk94muKbeGeJyO8odpzeer6QnoOAc8"
+          "apiKey": ""
         }
       },
       "permissions": [

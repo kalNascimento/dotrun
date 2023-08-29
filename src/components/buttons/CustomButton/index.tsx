@@ -3,8 +3,10 @@ import { TouchableHighlight } from "react-native";
 
 import { CustomButtonProps } from "../types";
 
-import { ButtonContentView, ButtonText, ButtonView } from "./styles";
-import { theme } from "../../../theme/Theme";
+import { ButtonContentView, ButtonView } from "./styles";
+import { ButtonText } from "@buttons/styles";
+
+import { theme } from "@theme/Theme";
 
 export function CustomButton({
   onPress,
