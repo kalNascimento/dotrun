@@ -12,9 +12,9 @@ export const theme = {
     },
     white: '#FAFAFA',
     gray: '#DFDFDF',
-    black: '#202020'
+    black: '#101010',
+    background: '#FAFAFA',
   },
-  background: '#FAFAFA',
   fontSize: {
     xs: '12px',
     sm: '14px',
@@ -41,5 +41,12 @@ export const theme = {
     shadowOpacity: 0.16,
     shadowRadius: 1.51,
     elevation: 1
+  },
+  opacity: {
+    op0: '00',
+    op25: '3F',
+    op50: '7F',
+    op75: 'BF',
+    op100: 'FF'
   }
 };
