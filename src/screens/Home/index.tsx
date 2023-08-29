@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
-import { ParamListBase, useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
-
 import * as TaskManager from "expo-task-manager"
 
 import { CustomButton } from '@buttons/CustomButton';
-import { AnchorButton } from '@buttons/AnchorButton';
+import { LoggedHeader } from 'src/components/LoggedHeader';
 
 import { TotalDistance } from './TotalDistance';
 import { RouteMapView } from './RouteMapView';
@@ -17,21 +15,14 @@ import { ICoordinates } from './types';
 
 import {
   ContainerButtonView,
-  ContainerView,
-  HeaderView
+  ContainerView
 } from "./styles";
 
 import {
-  LogoIcon,
-  LogoutIcon,
   PauseIcon,
-  PersonIcon,
   PlayIcon,
   StopIcon
 } from '@assets/icons';
-
-import { auth } from '@configs/firebase';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
 const ACCURACY = Location.Accuracy.Highest;
@@ -39,30 +30,9 @@ const TIME_INTERVAL = 6000;
 const DEFAULT_POSITION = 1;
 const DISTANCE_INTERVAL = 5;
 
-const Header = () => {
-  const navigation =  useNavigation<StackNavigationProp<ParamListBase>>()
-
-  const logout = () => {
-    auth.signOut();
-    navigation.navigate('Auth' as never);
-  }
-
-  return (
-    <HeaderView>
-      <AnchorButton onPress={() => navigation.replace('Auth' as never)}>
-        <PersonIcon width="24" height="24" />
-      </AnchorButton>
-      <LogoIcon width="48" />
-      <AnchorButton onPress={logout}>
-        <LogoutIcon width="24" height="24" />
-      </AnchorButton>
-    </HeaderView>
-  )
-}
-
 export function Home() {
   const [positions, setPositions] = useState<ICoordinates[]>([{
-    latitude: DEFAULT_POSITION,
+    latitude: DEFAULT_POSITION, 
     longitude: DEFAULT_POSITION
   }] as ICoordinates[]);
   const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
@@ -74,16 +44,7 @@ export function Home() {
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
-    const requestPermissions = async () => {
-      const foreground = await Location.requestForegroundPermissionsAsync()
-      if (foreground.granted)
-        await Location.requestBackgroundPermissionsAsync();
-
-      stopBackgroundUpdate();
-    }
-
     lastLocation();
-    requestPermissions();
   }, []);
 
   useEffect(() => {
@@ -194,13 +155,12 @@ export function Home() {
 
   return (
     <>
-      <Header />
+      <LoggedHeader />
       <ContainerView>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
           <TotalDistance positionHistory={positions} />
         </View>
-
         <RouteMapView coordinate={coordinates} positionHistory={positions} />
         <ContainerButtonView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
