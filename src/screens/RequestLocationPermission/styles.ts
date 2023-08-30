@@ -1,12 +1,11 @@
 import styled from "styled-components/native";
 
 export const ContainerView = styled.View`
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.primary.main};
   flex: 1;
   align-items: center;
   gap: 16px;
   width: 100%;
-  border-radius: 8px;
   padding: 96px 32px;
 `
 
