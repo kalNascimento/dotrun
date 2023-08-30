@@ -41,7 +41,7 @@ export function LoginForm() {
 
   useEffect(() => {
     const userState = auth.onAuthStateChanged((user) => {
-      user && navigation.navigate('Home' as never)
+      user && navigation.navigate('RequestPermission' as never)
     })
     return userState;
   }, [])
@@ -49,7 +49,7 @@ export function LoginForm() {
   const onSubmit: SubmitHandler<IUser> = async (user: IUser) => {
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then(() => {
-        navigation.navigate('Home' as never)
+        navigation.navigate('RequestPermission' as never)
       })
       .catch((error) => {
         error.code && setErrorMsg('Usuário e/ou senha incorretos, tente novamente')
