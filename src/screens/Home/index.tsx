@@ -26,9 +26,9 @@ import {
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
 const ACCURACY = Location.Accuracy.Highest;
-const TIME_INTERVAL = 6000;
-const DEFAULT_POSITION = 1;
+const TIME_INTERVAL = 5000;
 const DISTANCE_INTERVAL = 5;
+const DEFAULT_POSITION = 1;
 
 export function Home() {
   const [positions, setPositions] = useState<ICoordinates[]>([{
@@ -65,7 +65,6 @@ export function Home() {
       const { locations }: any = data;
       const location = locations[0];
       if (location) {
-        setIsPositionUpdating(true);
         setCoordinates({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -78,6 +77,7 @@ export function Home() {
     const background = await Location.requestBackgroundPermissionsAsync()
     
     setPositions([]);
+    setIsPositionUpdating(true);
     setIsTimerStart(true);
     setResetTimer(false);
 

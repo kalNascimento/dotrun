@@ -5,8 +5,8 @@ dotenv.config();
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  slug: '.run',
-  name: '.run',
+  slug: 'dotrun',
+  name: 'dotrun',
   version: '0.2.0',
   orientation: 'portrait',
   icon: "./assets/images/icon.png",

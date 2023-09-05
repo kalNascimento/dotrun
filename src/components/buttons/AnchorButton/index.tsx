@@ -12,7 +12,7 @@ export function AnchorButton({
   children
 }: PropsWithChildren<CustomButtonProps>) {
   return (
-    <ButtonView style={style}>
+    <ButtonView style={style} testID='anchor-button'>
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={1}
