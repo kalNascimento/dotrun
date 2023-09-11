@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
+import { Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
 
-import { CustomButton } from '@buttons/CustomButton';
+import { AnchorButton } from '@buttons/AnchorButton';
 
 import {
   ExplanatoryText,
@@ -11,8 +12,8 @@ import {
   ContainerView
 } from './styles';
 
-import { auth } from '@configs/firebase';
 import { CustomOutlineButton } from '@buttons/CustomOutlineButton';
+import { logout } from 'src/utils/logout';
 
 const ForegroundRequestText = (requestButton: React.ReactNode) => {
   return (
@@ -49,11 +50,6 @@ export function RequestLocationPermission() {
   const [foregroundPermission, requestForegroundPermission] = Location.useForegroundPermissions();
 
   const navigation = useNavigation();
-
-  const logout = () => {
-    auth.signOut();
-    navigation.navigate('Auth' as never);
-  }
 
   useEffect(() => {
     if (foregroundPermission?.granted) {
@@ -94,11 +90,12 @@ export function RequestLocationPermission() {
         </ExplanatoryText>
       }
 
-      <CustomOutlineButton
+      <AnchorButton
         style={{ width: '100%' }}
-        onPress={() => logout()}>
-        Sair
-      </CustomOutlineButton>
+        onPress={logout}
+        navigateTo='Auth'>
+        <Text>Sair</Text>
+      </AnchorButton>
     </ContainerView>
   );
 }
