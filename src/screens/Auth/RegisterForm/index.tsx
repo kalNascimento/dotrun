@@ -96,8 +96,8 @@ export function RegisterForm() {
                 <ErrorText>Senha e confirmar senha precisam ser iguais</ErrorText>
               }
             </View>
-            <AnchorButton onPress={() => navigation.navigate('Login' as never)}>
-              <ContentText>Não tem uma conta? Cadastre-se</ContentText>
+            <AnchorButton navigateTo="Login">
+              <ContentText>Já possui uma conta? login</ContentText>
             </AnchorButton>
           </AuthEmailView>
         </FormView>

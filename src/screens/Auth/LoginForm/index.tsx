@@ -102,7 +102,7 @@ export function LoginForm() {
               <GoogleIcon width="48" height="48" />
               <TwitterIcon width="48" height="48" />
             </AuthSocialContainerView>
-            <AnchorButton onPress={() => navigation.navigate('Register' as never)}>
+            <AnchorButton navigateTo="Register">
               <ContentText>Não tem uma conta? Cadastre-se</ContentText>
             </AnchorButton>
           </AuthSocialView>
