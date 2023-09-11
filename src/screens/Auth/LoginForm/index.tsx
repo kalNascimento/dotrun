@@ -67,10 +67,10 @@ export function LoginForm() {
   return (
     <MainView contentContainerStyle={{ flexGrow: 1, paddingTop: 32 }} testID="login-form">
       <LogoView>
-        {/* <LogoIcon width="128" height="128" /> */}
+        <LogoIcon width="128" height="128" />
       </LogoView>
       <KeyboardAvoidingView behavior={'padding'} style={{ flex: 1 }}>
-        <FormView>
+        <FormView testID="form-view">
           <AuthEmailView>
             <AuthInputContainerView>
               <CustomTextInput

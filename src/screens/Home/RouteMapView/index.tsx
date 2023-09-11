@@ -1,11 +1,17 @@
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from 'react-native-maps/lib/MapView';
+import { 
+  PROVIDER_DEFAULT, 
+  PROVIDER_GOOGLE 
+} from 'react-native-maps/lib/ProviderConstants';
 
-import { RouteMarker } from '../RouterMarker';
+
+import { RouteMarker } from '../RouteMarker';
 
 import { ContainerMap } from './styles';
 import { theme } from '@theme/Theme';
 
 import { ICoordinates } from '../types';
+import { Platform } from 'react-native';
 
 interface RouteMapViewProps {
   coordinate: ICoordinates;
@@ -21,16 +27,17 @@ export function RouteMapView({
   const isObjectEmpty = Object.keys(coordinate).length == 0;
 
   return (
-    <ContainerMap style={theme.shadow}>
+    <ContainerMap style={theme.shadow} testID='route-map-view'>
       {!isObjectEmpty &&
         <MapView
-          provider={PROVIDER_GOOGLE}
+          provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT}
           style={{ height: '100%' }}
           region={{
             ...coordinate,
             latitudeDelta: DELTA,
             longitudeDelta: DELTA
-          }}>
+          }}
+          testID='map-view'>
           <RouteMarker
             coordinate={coordinate}
             positionHistory={positionHistory} />

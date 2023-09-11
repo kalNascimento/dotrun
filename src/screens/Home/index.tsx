@@ -156,7 +156,7 @@ export function Home() {
   return (
     <>
       <LoggedHeader />
-      <ContainerView>
+      <ContainerView testID='home-screen'>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
           <TotalDistance positionHistory={positions} />

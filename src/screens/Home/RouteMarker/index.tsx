@@ -1,5 +1,7 @@
 import { View } from 'react-native';
-import { Marker, Polyline } from 'react-native-maps';
+
+import { MapMarker as Marker } from 'react-native-maps/lib/MapMarker';
+import { MapPolyline as Polyline } from 'react-native-maps/lib/MapPolyline';
 
 import { CustomMarker, CustomMarkerContent } from './styles';
 import { theme } from '@theme/Theme';
@@ -17,7 +19,7 @@ export function RouteMarker({
 }: RouteMapViewProps) {
 
   return (
-    <View>
+    <View testID='router-marker'>
       <Marker coordinate={{ latitude: coordinate.latitude, longitude: coordinate.longitude }}>
         <CustomMarker style={{ backgroundColor: theme.colors.white, borderRadius: 24 }}>
           <CustomMarkerContent style={{ backgroundColor: theme.colors.secondary, borderRadius: 24 }} />
