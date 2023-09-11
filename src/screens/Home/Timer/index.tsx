@@ -15,7 +15,7 @@ export function Timer({
 }: TimerProps) {
 
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row'}} testID='timer'>
       <Stopwatch laps start={isTimerStart} reset={resetTimer} options={options} />
       <DisplayText>s</DisplayText>
     </View>

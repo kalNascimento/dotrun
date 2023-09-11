@@ -12,12 +12,12 @@ export function AnchorButton({
   children
 }: PropsWithChildren<CustomButtonProps>) {
   return (
-    <ButtonView style={style} testID='anchor-button'>
+    <ButtonView style={style}>
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={1}
         underlayColor={theme.colors.primary.hover}>
-        <ButtonContentView>
+        <ButtonContentView testID='anchor-button'>
           { children }
         </ButtonContentView>
       </TouchableHighlight>

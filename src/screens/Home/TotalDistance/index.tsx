@@ -39,8 +39,10 @@ export function TotalDistance({
   const totalDistanceInKilometers = (totalDistanceInMeters * 1000).toFixed(2);
 
   return (
-    <DisplayView>
-      <DisplayText>{totalDistanceInKilometers} m</DisplayText>
+    <DisplayView testID="total-distance">
+      <DisplayText testID="total-distance-content">
+        {totalDistanceInKilometers} m
+      </DisplayText>
     </DisplayView>
   )
 }
