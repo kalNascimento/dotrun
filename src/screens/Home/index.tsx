@@ -108,6 +108,7 @@ export function Home() {
       showsBackgroundLocationIndicator: true,
       deferredUpdatesDistance: DISTANCE_INTERVAL,
       deferredUpdatesTimeout: TIME_INTERVAL,
+      pausesUpdatesAutomatically: false,
       foregroundService: {
         notificationTitle: "Localização",
         notificationBody: "Rastreando localização em segundo plano",
