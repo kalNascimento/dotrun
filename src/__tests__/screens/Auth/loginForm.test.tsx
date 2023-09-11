@@ -1,4 +1,4 @@
-import { render } from "src/__tests__/test-utils/test-utils";
+import { render, screen } from "src/__tests__/test-utils/test-utils";
 import { LoginForm } from "src/screens/Auth/LoginForm";
 
 jest.mock('firebase/auth', () => {
@@ -16,10 +16,17 @@ jest.mock('@configs/firebase', () => ({
 jest.mock("@assets/icons/facebook_logo.svg", () => 'FacebookIcon')
 jest.mock("@assets/icons/google_group.svg", () => 'GoogleIcon')
 jest.mock("@assets/icons/twitter_group.svg", () => 'TwitterIcon')
+jest.mock("@assets/icons/dotRUN.svg", () => 'LogoIcon')
 
 describe('screens/Auth/LoginForm', () => {
 
-  test('should LoginForm is rendered', () => {
+  beforeEach(() => {
     render(<LoginForm></LoginForm>)
+  });
+
+  test('Should LoginForm is rendered', async () => {
+    const form = screen.getByTestId('login-form');
+
+    expect(form).toBeOnTheScreen();
   });
 });
