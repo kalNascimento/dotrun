@@ -31,8 +31,8 @@ describe('screens/Home/RouteMapView', () => {
       <RouteMapView coordinate={COORDINATE} positionHistory={POSITION_HISTORY} />
     )
 
-    const routerMapView = screen.getByTestId('route-map-view');
-    const mapView = screen.getByTestId('map-view');
+    const routerMapView = screen.queryByTestId('route-map-view');
+    const mapView = screen.queryByTestId('map-view');
 
     expect(routerMapView).toBeOnTheScreen();
     expect(mapView).toBeOnTheScreen();
@@ -43,8 +43,8 @@ describe('screens/Home/RouteMapView', () => {
       <RouteMapView coordinate={COORDINATE_EMPTY} positionHistory={POSITION_HISTORY} />
     );
 
-    const routerMapView = screen.getByTestId('route-map-view');
+    const routerMapView = screen.queryByTestId('route-map-view');
 
-    expect(routerMapView.children.length).toBe(0);
+    expect(routerMapView?.children.length).toBe(0);
   });
 });

@@ -22,25 +22,25 @@ describe('screens/Home', () => {
     })
   })
   test('Should Home is rendered', async () => {
-      const home = screen.getByTestId('home-screen');
+      const home = screen.queryByTestId('home-screen');
 
       expect(home).toBeOnTheScreen();
   });
 
   test('Should Home is rendered with RouteMapView', async () => {
-      const routerMapView = screen.getByTestId('route-map-view');
+      const routerMapView = screen.queryByTestId('route-map-view');
 
       expect(routerMapView).toBeOnTheScreen();
   });
 
   test('Should Home is rendered with TotalDistance', async () => {
-      const totalDistance = screen.getByTestId('total-distance');
+      const totalDistance = screen.queryByTestId('total-distance');
 
       expect(totalDistance).toBeOnTheScreen();
   });
 
   test('Should Home is rendered with Timer', async () => {
-      const timer = screen.getByTestId('timer');
+      const timer = screen.queryByTestId('timer');
 
       expect(timer).toBeOnTheScreen();
   });
