@@ -40,8 +40,8 @@ describe('screens/Home/TotalDistance', () => {
       <TotalDistance positionHistory={POSITION_HISTORY} />
     );
 
-    const totalDistanceContent = screen.getByTestId('total-distance-content');
+    const totalDistanceContent = screen.queryByTestId('total-distance-content');
 
-    expect(totalDistanceContent.children[0]).not.toEqual('0.00')
+    expect(totalDistanceContent?.children[0]).not.toEqual('0.00')
   });
 });

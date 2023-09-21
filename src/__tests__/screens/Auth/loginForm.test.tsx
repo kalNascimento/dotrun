@@ -25,7 +25,7 @@ describe('screens/Auth/LoginForm', () => {
   });
 
   test('Should LoginForm is rendered', async () => {
-    const form = screen.getByTestId('login-form');
+    const form = screen.queryByTestId('login-form');
 
     expect(form).toBeOnTheScreen();
   });

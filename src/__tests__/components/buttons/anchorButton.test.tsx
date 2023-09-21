@@ -24,8 +24,8 @@ describe('components/button/AnchorButton', () => {
   });
 
   test('Should Anchor button contain icon', () => {
-    const anchorButton = screen.getByTestId('anchor-button');
+    const anchorButton = screen.queryByTestId('anchor-button');
 
-    expect(anchorButton.children[1]).toHaveProp('width', '48');
+    expect(anchorButton?.children[1]).toHaveProp('width', '48');
   });
 });

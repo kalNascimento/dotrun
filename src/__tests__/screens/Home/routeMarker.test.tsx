@@ -29,8 +29,8 @@ describe('screens/Home/RouteMarker', () => {
       <RouteMarker coordinate={COORDINATE} positionHistory={POSITION_HISTORY} />
     );
 
-    const routerMapView = screen.getByTestId('router-marker');
+    const routerMapView = screen.queryByTestId('router-marker');
 
-    expect(routerMapView.children.length).toBe(2);
+    expect(routerMapView?.children.length).toBe(2);
   });
 });

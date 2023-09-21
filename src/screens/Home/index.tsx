@@ -23,6 +23,8 @@ import {
   PlayIcon,
   StopIcon
 } from '@assets/icons';
+import { AlertNotification } from 'src/components/AlertNotification';
+import { theme } from '@theme/Theme';
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
 const ACCURACY = Location.Accuracy.Highest;
@@ -32,7 +34,7 @@ const DEFAULT_POSITION = 1;
 
 export function Home() {
   const [positions, setPositions] = useState<ICoordinates[]>([{
-    latitude: DEFAULT_POSITION, 
+    latitude: DEFAULT_POSITION,
     longitude: DEFAULT_POSITION
   }] as ICoordinates[]);
   const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
@@ -40,8 +42,6 @@ export function Home() {
 
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [resetStopTimer, setResetTimer] = useState(false);
-
-  const [errorMsg, setErrorMsg] = useState<string>('');
 
   useEffect(() => {
     lastLocation();
@@ -58,7 +58,7 @@ export function Home() {
 
   TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     if (error) {
-      console.error(error);
+      AlertNotification(`Erro inesperado: ${error.code}`, error.message);
       return;
     }
     if (data) {
@@ -75,7 +75,7 @@ export function Home() {
 
   const startBackgroundUpdate = async () => {
     const background = await Location.requestBackgroundPermissionsAsync()
-    
+
     setPositions([]);
     setIsPositionUpdating(true);
     setIsTimerStart(true);
@@ -84,14 +84,14 @@ export function Home() {
     if (background) {
       const { granted } = await Location.getBackgroundPermissionsAsync()
       if (!granted) {
-        console.log("Acesso a localização negado")
+        AlertNotification('Permission Erro', "Acesso a localização negado");
         return
       }
     }
 
-    const isTaskDefined = await TaskManager.isTaskDefined(LOCATION_TASK_NAME)
+    const isTaskDefined = TaskManager.isTaskDefined(LOCATION_TASK_NAME)
     if (!isTaskDefined) {
-      console.log("Tarefa em segundo plano não definida")
+      AlertNotification('Task error', "Tarefa em segundo plano não definida");
       return
     }
 
@@ -99,7 +99,7 @@ export function Home() {
       LOCATION_TASK_NAME
     )
     if (hasStarted) {
-      console.log("Rastreio em segundo plano já foi iniciado")
+      AlertNotification('Aviso', "Rastreio em segundo plano já foi iniciado");
       return
     }
 
@@ -112,13 +112,13 @@ export function Home() {
       foregroundService: {
         notificationTitle: "Localização",
         notificationBody: "Rastreando localização em segundo plano",
-        notificationColor: "#F1F1F1",
+        notificationColor: theme.colors.primary.main,
       },
     })
   }
 
   const stopBackgroundUpdate = async () => {
-    
+
     setIsPositionUpdating(false);
     setIsTimerStart(false);
     setPositions([]);
@@ -129,7 +129,7 @@ export function Home() {
     )
     if (hasStarted) {
       await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME)
-      console.log("Rastreio em segundo plano foi desativado")
+      AlertNotification('Aviso', "Rastreio em segundo plano foi desativado");
     }
   }
 
@@ -142,7 +142,7 @@ export function Home() {
     )
     if (hasStarted) {
       await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME)
-      console.log("Rastreio em segundo plano foi pausado")
+      AlertNotification('Aviso', "Rastreio em segundo plano foi pausado")
     }
   }
 
