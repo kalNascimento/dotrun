@@ -15,7 +15,7 @@ export function CustomPasswordInput({
 }: CustomInputProps) {
 
   return (
-    <View>
+    <View testID='custom-password-input'>
       <LabelText>{label}</LabelText>
       <Controller
         control={control}
@@ -27,11 +27,12 @@ export function CustomPasswordInput({
               placeholderTextColor={theme.fontColor.placeholder}
               onChangeText={onChange}
               value={value}
+              testID='custom-password-input-content'
               secureTextEntry
             />
             {
               error &&
-              <ErrorText>{error?.message}</ErrorText>
+              <ErrorText testID='custom-password-input-error-text'>{error?.message}</ErrorText>
             }
           </>
         )}

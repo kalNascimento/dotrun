@@ -1,16 +1,21 @@
 import { AnchorButton } from "@buttons/AnchorButton"
 import { render } from "src/__tests__/test-utils/test-utils";
-import { screen } from "@testing-library/react-native";
+import { fireEvent, screen } from "@testing-library/react-native";
 import { PlayIcon } from "@assets/icons";
 import { Text } from "react-native";
 
-jest.mock("@assets/icons/play.svg", () => 'PlayIcon')
+
+jest.mock("@assets/icons/play.svg", () => 'PlayIcon');
+
+const mockNavigate = jest.fn();
+jest.mock("@react-navigation/native", () => {
+  return { useNavigate: mockNavigate }
+})
 
 describe('components/button/AnchorButton', () => {
-
   beforeEach(() => {
     render(
-      <AnchorButton onPress={() => 'button OK'}>
+      <AnchorButton navigateTo="auth">
         <Text>Test Button</Text>
         <PlayIcon width='48' />
       </AnchorButton>
@@ -20,12 +25,18 @@ describe('components/button/AnchorButton', () => {
   test('Should Anchor button contain text', () => {
     const anchorButton = screen.getByTestId('anchor-button');
 
-    expect(anchorButton).toHaveTextContent('Test Button');
+    expect(anchorButton).toBeOnTheScreen();
+  });
+
+  test('Should Anchor button contain text', () => {
+    const anchorButtonContent = screen.getByTestId('anchor-button-content');
+
+    expect(anchorButtonContent).toHaveTextContent('Test Button');
   });
 
   test('Should Anchor button contain icon', () => {
-    const anchorButton = screen.queryByTestId('anchor-button');
+    const anchorButtonContent = screen.queryByTestId('anchor-button-content');
 
-    expect(anchorButton?.children[1]).toHaveProp('width', '48');
+    expect(anchorButtonContent?.children[1]).toHaveProp('width', '48');
   });
 });

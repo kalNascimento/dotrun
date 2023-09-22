@@ -14,7 +14,7 @@ export function CustomOutlineButton({
   children
 }: PropsWithChildren<CustomButtonProps>) {
   return (
-    <ButtonView style={[style]}>
+    <ButtonView style={[style]} testID="custom-outline-button">
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={0.75}

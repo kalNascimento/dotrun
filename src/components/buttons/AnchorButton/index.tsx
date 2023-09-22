@@ -16,12 +16,12 @@ export function AnchorButton({
   const navigation = useNavigation<StackNavigationProp<ParamListBase>>()
 
   return (
-    <ButtonView style={style}>
+    <ButtonView style={style} testID='anchor-button'>
       <TouchableHighlight 
         onPress={() => navigation.navigate(navigateTo as never)}
         activeOpacity={1}
         underlayColor={theme.colors.primary.hover}>
-        <ButtonContentView testID='anchor-button'>
+        <ButtonContentView testID='anchor-button-content'>
           { children }
         </ButtonContentView>
       </TouchableHighlight>

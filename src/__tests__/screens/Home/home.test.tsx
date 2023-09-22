@@ -21,27 +21,33 @@ describe('screens/Home', () => {
       render(<Home />);
     })
   })
-  test('Should Home is rendered', async () => {
+  test('Should Home is rendered', () => {
       const home = screen.queryByTestId('home-screen');
 
       expect(home).toBeOnTheScreen();
   });
 
-  test('Should Home is rendered with RouteMapView', async () => {
+  test('Should Home is rendered with RouteMapView', () => {
       const routerMapView = screen.queryByTestId('route-map-view');
 
       expect(routerMapView).toBeOnTheScreen();
   });
 
-  test('Should Home is rendered with TotalDistance', async () => {
+  test('Should Home is rendered with TotalDistance', () => {
       const totalDistance = screen.queryByTestId('total-distance');
 
       expect(totalDistance).toBeOnTheScreen();
   });
 
-  test('Should Home is rendered with Timer', async () => {
+  test('Should Home is rendered with Timer', () => {
       const timer = screen.queryByTestId('timer');
 
       expect(timer).toBeOnTheScreen();
+  });
+
+  test('Should Home is rendered 6 CustomButtons', () => {
+      const button = screen.queryAllByTestId('custom-button');
+
+      expect(button.length).toHaveLength(6);
   });
 });
