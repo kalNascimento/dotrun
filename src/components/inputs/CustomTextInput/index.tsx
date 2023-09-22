@@ -15,7 +15,7 @@ export function CustomTextInput({
 }: CustomInputProps) {
 
   return (
-    <View>
+    <View testID='custom-text-input'>
       <LabelText>{label}</LabelText>
       <Controller
         control={control}
@@ -28,10 +28,11 @@ export function CustomTextInput({
               keyboardType="email-address"
               onChangeText={onChange}
               value={value}
+              testID='custom-text-input-content'
             />
             {
               error &&
-              <ErrorText>{error?.message}</ErrorText>
+              <ErrorText testID='custom-text-input-error-text'>{error?.message}</ErrorText>
             }
           </>
         )}

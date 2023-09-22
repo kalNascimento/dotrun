@@ -14,13 +14,15 @@ export function CustomButton({
   children
 }: PropsWithChildren<CustomButtonProps>) {
   return (
-    <ButtonView style={[theme.shadow, style]}>
+    <ButtonView style={[theme.shadow, style]} testID="custom-button">
       <TouchableHighlight 
         onPress={onPress}
         activeOpacity={1}
         underlayColor={theme.colors.primary.hover}>
         <ButtonContentView>
-          <ButtonText>{ children }</ButtonText>
+          <ButtonText testID="custom-button">
+            { children }
+          </ButtonText>
         </ButtonContentView>
       </TouchableHighlight>
     </ButtonView>
