@@ -48,6 +48,6 @@ describe('screens/Home', () => {
   test('Should Home is rendered 6 CustomButtons', () => {
       const button = screen.queryAllByTestId('custom-button');
 
-      expect(button.length).toHaveLength(6);
+      expect(button).toHaveLength(6);
   });
 });

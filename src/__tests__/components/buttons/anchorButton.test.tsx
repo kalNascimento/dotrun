@@ -1,16 +1,10 @@
 import { AnchorButton } from "@buttons/AnchorButton"
 import { render } from "src/__tests__/test-utils/test-utils";
-import { fireEvent, screen } from "@testing-library/react-native";
+import { screen } from "@testing-library/react-native";
 import { PlayIcon } from "@assets/icons";
 import { Text } from "react-native";
 
-
 jest.mock("@assets/icons/play.svg", () => 'PlayIcon');
-
-const mockNavigate = jest.fn();
-jest.mock("@react-navigation/native", () => {
-  return { useNavigate: mockNavigate }
-})
 
 describe('components/button/AnchorButton', () => {
   beforeEach(() => {
