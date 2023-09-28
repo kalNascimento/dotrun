@@ -4,6 +4,7 @@ import {
   PROVIDER_GOOGLE 
 } from 'react-native-maps/lib/ProviderConstants';
 
+import { MapPolyline as Polyline } from 'react-native-maps/lib/MapPolyline';
 
 import { RouteMarker } from '../RouteMarker';
 

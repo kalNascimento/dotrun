@@ -27,51 +27,35 @@ import { AlertNotification } from 'src/components/AlertNotification';
 import { theme } from '@theme/Theme';
 
 const LOCATION_TASK_NAME = "BACKGROUND_TRACKING"
-const ACCURACY = Location.Accuracy.Highest;
+const ACCURACY = Location.Accuracy.BestForNavigation;
 const TIME_INTERVAL = 5000;
-const DISTANCE_INTERVAL = 5;
+const DISTANCE_INTERVAL = 1;
 const DEFAULT_POSITION = 1;
 
-export function Home() {
+export function Home({coord}: any) {
   const [positions, setPositions] = useState<ICoordinates[]>([{
     latitude: DEFAULT_POSITION,
     longitude: DEFAULT_POSITION
   }] as ICoordinates[]);
-  const [coordinates, setCoordinates] = useState<ICoordinates>({} as ICoordinates);
+  
   const [isPositionUpdating, setIsPositionUpdating] = useState<boolean>(false);
 
   const [isTimerStart, setIsTimerStart] = useState(false);
   const [resetStopTimer, setResetTimer] = useState(false);
 
-  useEffect(() => {
-    lastLocation();
-  }, []);
-
+  // useEffect(() => {
+  //   lastLocation();
+  // }, []);
+  
   useEffect(() => {
     if (isPositionUpdating) {
+      console.log(positions)
       setPositions(prevPosition => [...prevPosition, {
-        latitude: coordinates.latitude,
-        longitude: coordinates.longitude,
+        latitude: coord.latitude,
+        longitude: coord.longitude,
       }])
     }
-  }, [coordinates])
-
-  TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
-    if (error) {
-      AlertNotification(`Erro inesperado: ${error.code}`, error.message);
-      return;
-    }
-    if (data) {
-      const { locations }: any = data;
-      const location = locations[0];
-      if (location) {
-        setCoordinates({
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-        });
-      }
-    }
-  });
+  }, [coord])
 
   const startBackgroundUpdate = async () => {
     const background = await Location.requestBackgroundPermissionsAsync()
@@ -146,13 +130,13 @@ export function Home() {
     }
   }
 
-  const lastLocation = async () => {
-    const location = await Location.getLastKnownPositionAsync({});
-    setCoordinates({
-      latitude: location?.coords.latitude ?? DEFAULT_POSITION,
-      longitude: location?.coords.longitude ?? DEFAULT_POSITION,
-    });
-  }
+  // const lastLocation = async () => {
+  //   const location = await Location.getLastKnownPositionAsync({});
+  //   setCoordinates({
+  //     latitude: location?.coords.latitude ?? DEFAULT_POSITION,
+  //     longitude: location?.coords.longitude ?? DEFAULT_POSITION,
+  //   });
+  // }
 
   return (
     <>
@@ -162,7 +146,7 @@ export function Home() {
           <Timer isTimerStart={isTimerStart} resetTimer={resetStopTimer}></Timer>
           <TotalDistance positionHistory={positions} />
         </View>
-        <RouteMapView coordinate={coordinates} positionHistory={positions} />
+        <RouteMapView coordinate={coord} positionHistory={positions} />
         <ContainerButtonView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
