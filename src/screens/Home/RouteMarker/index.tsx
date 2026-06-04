@@ -19,13 +19,16 @@ export function RouteMarker({
 }: RouteMapViewProps) {
 
   return (
-    <View testID='router-marker'>
-      <Marker coordinate={{ latitude: coordinate.latitude, longitude: coordinate.longitude }}>
+    <>
+      <Marker
+        testID="router-marker"
+        coordinate={{ latitude: coordinate.latitude, longitude: coordinate.longitude }}
+      >
         <CustomMarker style={{ backgroundColor: theme.colors.white, borderRadius: 24 }}>
           <CustomMarkerContent style={{ backgroundColor: theme.colors.secondary, borderRadius: 24 }} />
         </CustomMarker>
       </Marker>
       <Polyline coordinates={positionHistory} strokeWidth={8} strokeColor="#5699FD" />
-    </View>
+    </>
   )
 }

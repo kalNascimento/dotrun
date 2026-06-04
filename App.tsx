@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import './src/services/backgroundLocationTask';
 
-import { SafeAreaView, StatusBar } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { ThemeProvider } from 'styled-components';
