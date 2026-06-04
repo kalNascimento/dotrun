@@ -14,6 +14,20 @@ jest.mock("@assets/icons/pause.svg", () => 'PauseIcon')
 jest.mock("@assets/icons/play.svg", () => 'PlayIcon')
 jest.mock("@assets/icons/dotRUN.svg", () => 'LogoIcon')
 
+jest.mock('@hooks/use-run-tracking.hook', () => ({
+  useRunTracking: () => ({
+    currentCoordinate: {
+      latitude: -23.55052,
+      longitude: -46.633308,
+    },
+    elapsedTime: 0,
+    route: [],
+    start: jest.fn(),
+    pause: jest.fn(),
+    stop: jest.fn(),
+  })
+}));
+
 describe('screens/Home', () => {
 
   beforeEach(async () => {

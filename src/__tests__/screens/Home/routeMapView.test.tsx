@@ -4,22 +4,22 @@ import { ICoordinates } from "src/screens/Home/types";
 
 const POSITION_HISTORY = [
   {
-    latitude: 1000,
-    longitude: 1001
+    latitude: -23.55052,
+    longitude: -46.633308
   },
   {
-    latitude: 1001,
-    longitude: 1002
+    latitude: -23.55152,
+    longitude: -46.634308
   },
   {
-    latitude: 1002,
-    longitude: 1003
+    latitude: -23.55252,
+    longitude: -46.635308
   }
 ] as ICoordinates[];
 
 const COORDINATE = {
-  latitude: 1000,
-  longitude: 1001
+  latitude: -23.55052,
+  longitude: -46.633308
 } as ICoordinates;
 
 const COORDINATE_EMPTY = { } as ICoordinates;

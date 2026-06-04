@@ -1,7 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-
-import * as Location from 'expo-location';
 
 import { Home } from '../screens/Home';
 import { Auth } from '../screens/Auth';

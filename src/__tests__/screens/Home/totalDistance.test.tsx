@@ -27,13 +27,13 @@ describe('screens/Home/TotalDistance', () => {
 
     const totalDistanceContent = screen.getByTestId('total-distance-content');
 
-    expect(totalDistanceContent.children[0]).toEqual('0.00')
+    expect(totalDistanceContent).toHaveTextContent('0.00 m')
   });
 
   test('Should totalDistanceContent not equals', async () => {
     const POSITION_HISTORY = [
-      { latitude: 1000, longitude: 1001 },
-      { latitude: 1001, longitude: 1002 }
+      { latitude: -23.55052, longitude: -46.633308 },
+      { latitude: -23.55152, longitude: -46.634308 }
     ] as ICoordinates[];
 
     render(
@@ -42,6 +42,6 @@ describe('screens/Home/TotalDistance', () => {
 
     const totalDistanceContent = screen.queryByTestId('total-distance-content');
 
-    expect(totalDistanceContent?.children[0]).not.toEqual('0.00')
+    expect(totalDistanceContent).not.toHaveTextContent('0.00 m')
   });
 });
