@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 import MapView from 'react-native-maps/lib/MapView';
 import {
   PROVIDER_DEFAULT,

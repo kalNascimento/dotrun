@@ -18,7 +18,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     'expo-splash-screen',
-    'expo-status-bar',
     [
       'expo-location',
       {
