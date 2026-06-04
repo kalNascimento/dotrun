@@ -36,7 +36,7 @@ import { IUser } from "../types";
 export function LoginForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const { control, handleSubmit } = useForm<IUser>();
-  
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export function LoginForm() {
     })
     return userState;
   }, [])
-  
+
   const onSubmit: SubmitHandler<IUser> = async (user: IUser) => {
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then(() => {
@@ -84,7 +84,7 @@ export function LoginForm() {
               <CustomPasswordInput
                 control={control}
                 label="Senha"
-                placeholder='••••••••'
+                placeholder='********'
                 name="password"
               />
             </AuthInputContainerView>

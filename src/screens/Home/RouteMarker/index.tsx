@@ -6,11 +6,11 @@ import { MapPolyline as Polyline } from 'react-native-maps/lib/MapPolyline';
 import { CustomMarker, CustomMarkerContent } from './styles';
 import { theme } from '@theme/Theme';
 
-import { ICoordinates } from '../types';
+import type { RunCoordinate } from 'src/services/runTrackingStorage';
 
 interface RouteMapViewProps {
-  coordinate: ICoordinates,
-  positionHistory: ICoordinates[]
+  coordinate: RunCoordinate,
+  positionHistory: RunCoordinate[]
 }
 
 export function RouteMarker({

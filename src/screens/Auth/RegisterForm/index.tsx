@@ -34,11 +34,16 @@ export function RegisterForm() {
   const navigation = useNavigation();
 
   const onSubmit: SubmitHandler<IUser> = (user) => {
-    const test = user.password === user.confirmPassword
-    setIsSamePassword(test)
+    const passwordsMatch = user.password === user.confirmPassword;
+    setIsSamePassword(passwordsMatch);
+    setErrorMsg('');
 
-    isSamePassword && createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then((userCredential) => {
+    if (!passwordsMatch) {
+      return;
+    }
+
+    createUserWithEmailAndPassword(auth, user.email, user.password)
+      .then(() => {
         navigation.navigate('Login' as never)
       })
       .catch((error) => {
@@ -74,14 +79,14 @@ export function RegisterForm() {
               <CustomPasswordInput
                 control={control}
                 label="Senha"
-                placeholder='••••••••'
+                placeholder='********'
                 name="password"
               />
 
               <CustomPasswordInput
                 control={control}
                 label="Confirme a senha"
-                placeholder='••••••••'
+                placeholder='********'
                 name="confirmPassword"
               />
             </AuthInputContainerView>
@@ -97,7 +102,7 @@ export function RegisterForm() {
               }
             </View>
             <AnchorButton navigateTo="Login">
-              <ContentText>Já possui uma conta? login</ContentText>
+              <ContentText>Já possui uma conta? Login</ContentText>
             </AnchorButton>
           </AuthEmailView>
         </FormView>

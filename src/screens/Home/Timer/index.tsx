@@ -1,34 +1,25 @@
-import { View } from 'react-native';
-import { Stopwatch } from 'react-native-stopwatch-timer'
-
-import { theme } from '@theme/Theme';
-import { DisplayText } from './styles';
+import { Text, View } from 'react-native';
 
 interface TimerProps {
-  isTimerStart: boolean;
-  resetTimer: boolean;
+  elapsedTime: number;
 }
 
 export function Timer({
-  isTimerStart,
-  resetTimer
+  elapsedTime
 }: TimerProps) {
+  const totalSeconds = Math.floor(elapsedTime / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const formattedTime = [hours, minutes, seconds]
+    .map((value) => String(value).padStart(2, '0'))
+    .join(':');
 
   return (
-    <View style={{flexDirection: 'row'}} testID='timer'>
-      <Stopwatch laps start={isTimerStart} reset={resetTimer} options={options} />
-      <DisplayText>s</DisplayText>
+    <View testID="timer">
+      <Text testID="timer-content" style={{ fontSize: 28, color: '#000' }}>
+        {formattedTime}
+      </Text>
     </View>
-  )
+  );
 }
-
-const options = {
-  container: {
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 16,
-    color: theme.colors.primary.main,
-    fontWeight: theme.fontWeight.bold
-  },
-};

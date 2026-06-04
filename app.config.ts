@@ -9,24 +9,28 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   name: 'dotrun',
   version: '0.2.0',
   orientation: 'portrait',
-  icon: "./assets/images/icon.png",
+  icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
   splash: {
-    image: "./assets/images/splash.png",
-    resizeMode: "contain",
-    backgroundColor: "#007A4F"
+    image: './assets/images/splash.png',
+    resizeMode: 'contain',
+    backgroundColor: '#007A4F'
   },
   plugins: [
+    'expo-splash-screen',
+    'expo-status-bar',
     [
-      "expo-location",
+      'expo-location',
       {
-        locationAlwaysAndWhenInUsePermission: "Permitir que $(PRODUCT_NAME) use sua localização.",
-        isAndroidBackgroundLocationEnabled: true
+        locationAlwaysAndWhenInUsePermission: 'Permitir que $(PRODUCT_NAME) use sua localização.',
+        locationWhenInUsePermission: 'Permitir que $(PRODUCT_NAME) use sua localização enquanto o app estiver aberto.',
+        isAndroidBackgroundLocationEnabled: true,
+        isAndroidForegroundServiceEnabled: true
       }
     ]
   ],
   assetBundlePatterns: [
-    "**/*"
+    '**/*'
   ],
   ios: {
     supportsTablet: true,
@@ -47,19 +51,16 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       },
     },
     permissions: [
-      "ACCESS_COARSE_LOCATION",
-      "ACCESS_FINE_LOCATION",
-      "FOREGROUND_SERVICE",
-      "ACCESS_BACKGROUND_LOCATION",
-      "android.permission.ACCESS_COARSE_LOCATION",
-      "android.permission.ACCESS_FINE_LOCATION",
-      "android.permission.FOREGROUND_SERVICE",
-      "android.permission.ACCESS_BACKGROUND_LOCATION"
+      'ACCESS_COARSE_LOCATION',
+      'ACCESS_FINE_LOCATION',
+      'ACCESS_BACKGROUND_LOCATION',
+      'FOREGROUND_SERVICE',
+      'FOREGROUND_SERVICE_LOCATION'
     ],
   },
   extra: {
     eas: {
-      projectId: "225b8a72-e8c8-4762-9f62-95196a5e4e87"
+      projectId: '225b8a72-e8c8-4762-9f62-95196a5e4e87'
     }
   }
 });
