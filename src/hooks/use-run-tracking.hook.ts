@@ -11,6 +11,7 @@ import {
   getRunSession,
   IDLE_RUN_SESSION,
   LOCATION_TASK_NAME,
+  locationToRoutePoint,
   RunCoordinate,
   RunTrackingSession,
   RunTrackingStatus,
@@ -20,15 +21,18 @@ import {
 const ACCURACY = Location.Accuracy.Highest;
 const TIME_INTERVAL = 5000;
 const DISTANCE_INTERVAL = 5;
-const DEFAULT_POSITION = 1;
 
-function locationToRoutePoint(location: Location.LocationObject): RunCoordinate {
-  return {
-    latitude: location.coords.latitude,
-    longitude: location.coords.longitude,
-    accuracy: location.coords.accuracy,
-    timestamp: location.timestamp ?? Date.now(),
-  };
+async function getInitialLocation() {
+  try {
+    const lastKnown = await Location.getLastKnownPositionAsync({});
+    if (lastKnown) {
+      return lastKnown;
+    }
+
+    return await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+  } catch {
+    return null;
+  }
 }
 
 function getElapsedTime(session: RunTrackingSession) {
@@ -65,13 +69,10 @@ export function useRunTracking() {
       return;
     }
 
-    const location = await Location.getLastKnownPositionAsync({});
-    setCurrentCoordinate({
-      latitude: location?.coords.latitude ?? DEFAULT_POSITION,
-      longitude: location?.coords.longitude ?? DEFAULT_POSITION,
-      accuracy: location?.coords.accuracy,
-      timestamp: location?.timestamp ?? Date.now(),
-    });
+    // Sem posição conhecida, o mapa fica oculto (coordenada nula) em vez de
+    // centralizar num ponto fictício.
+    const location = await getInitialLocation();
+    setCurrentCoordinate(location ? locationToRoutePoint(location) : null);
   }, []);
 
   const stopForegroundWatch = useCallback(() => {
@@ -117,6 +118,11 @@ export function useRunTracking() {
   }, []);
 
   const start = useCallback(async () => {
+    // Iniciar durante uma corrida em andamento apagaria o trajeto.
+    if (sessionRef.current.status === 'running') {
+      return;
+    }
+
     await ensureBackgroundPermission();
 
     const hasStarted = await Location.hasStartedLocationUpdatesAsync(LOCATION_TASK_NAME);

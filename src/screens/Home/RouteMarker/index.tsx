@@ -1,7 +1,4 @@
-import { View } from 'react-native';
-
-import { MapMarker as Marker } from 'react-native-maps/lib/MapMarker';
-import { MapPolyline as Polyline } from 'react-native-maps/lib/MapPolyline';
+import { Marker, Polyline } from 'react-native-maps';
 
 import { CustomMarker, CustomMarkerContent } from './styles';
 import { theme } from '@theme/Theme';

@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
 import { TouchableHighlight } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
 import { CustomButtonProps } from "../types";
 
@@ -9,16 +8,25 @@ import { ButtonContentView, ButtonView } from "./styles";
 import { theme } from "@theme/Theme";
 
 export function AnchorButton({
+  onPress,
   navigateTo,
   style,
   children
 }: PropsWithChildren<CustomButtonProps>) {
-  const navigation = useNavigation<StackNavigationProp<ParamListBase>>()
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    onPress?.();
+
+    if (navigateTo) {
+      navigation.navigate(navigateTo);
+    }
+  };
 
   return (
     <ButtonView style={style} testID='anchor-button'>
-      <TouchableHighlight 
-        onPress={() => navigation.navigate(navigateTo as never)}
+      <TouchableHighlight
+        onPress={handlePress}
         activeOpacity={1}
         underlayColor={theme.colors.primary.hover}>
         <ButtonContentView testID='anchor-button-content'>

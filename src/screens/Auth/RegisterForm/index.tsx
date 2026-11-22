@@ -7,8 +7,6 @@ import { CustomPasswordInput } from "@inputs/CustomPasswordInput";
 import { CustomOutlineButton } from "@buttons/CustomOutlineButton";
 import { AnchorButton } from "@buttons/AnchorButton";
 
-import { useNavigation } from '@react-navigation/native';
-
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '@configs/firebase';
 
@@ -31,8 +29,6 @@ export function RegisterForm() {
   const [isSamePassword, setIsSamePassword] = useState<boolean>();
   const { control, handleSubmit } = useForm<IUser>();
 
-  const navigation = useNavigation();
-
   const onSubmit: SubmitHandler<IUser> = (user) => {
     const passwordsMatch = user.password === user.confirmPassword;
     setIsSamePassword(passwordsMatch);
@@ -42,10 +38,9 @@ export function RegisterForm() {
       return;
     }
 
+    // O Firebase já autentica o usuário recém-criado, e o AppRoute segue
+    // direto para a pilha autenticada.
     createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then(() => {
-        navigation.navigate('Login' as never)
-      })
       .catch((error) => {
         error.code && setErrorMsg('Não foi possível cadastrar um usuário com esses dados')
       });

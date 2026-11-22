@@ -25,12 +25,14 @@ const COORDINATE = {
 describe('screens/Home/RouteMarker', () => {
 
   test('Should RouteMarker is rendered with children', async () => {
-    render(
+    await render(
       <RouteMarker coordinate={COORDINATE} positionHistory={POSITION_HISTORY} />
     );
 
-    const routerMapView = screen.queryByTestId('router-marker');
+    const marker = screen.getByTestId('router-marker');
 
-    expect(routerMapView?.children.length).toBe(2);
+    // O marcador customizado (círculo) é o conteúdo do Marker.
+    expect(marker).toBeOnTheScreen();
+    expect(marker.children.length).toBe(1);
   });
 });

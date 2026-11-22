@@ -37,3 +37,7 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# env files (secrets)
+.env
+.env*.local

@@ -1,37 +1,26 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(true);
   return {
+    // babel-preset-expo já inclui as transformações modernas e o plugin do
+    // react-native-worklets (Reanimated 4), então não é preciso declará-los aqui.
     presets: ['babel-preset-expo'],
     plugins: [
-      'react-native-reanimated/plugin',
-      '@babel/plugin-transform-nullish-coalescing-operator',
-      '@babel/plugin-transform-optional-chaining',
-      '@babel/plugin-transform-arrow-functions',
-      '@babel/plugin-transform-shorthand-properties',
-      '@babel/plugin-transform-template-literals',
-      ["module:react-native-dotenv", {
-        "envName": "APP_ENV",
-        "moduleName": "@env",
-        "path": ".env",
-        "blocklist": null,
-        "allowlist": null,
-        "blacklist": null, // DEPRECATED
-        "whitelist": null, // DEPRECATED
-        "safe": false,
-        "allowUndefined": true,
-        "verbose": false
-      }],
+      [
+        'module:react-native-dotenv',
+        {
+          envName: 'APP_ENV',
+          moduleName: '@env',
+          path: '.env',
+          safe: false,
+          allowUndefined: true,
+          verbose: false,
+        },
+      ],
       [
         'module-resolver',
         {
           root: ['./'],
-          extensions: [
-            '.ts',
-            '.tsx',
-            '.jsx',
-            '.js',
-            '.json',
-          ],
+          extensions: ['.ts', '.tsx', '.jsx', '.js', '.json'],
           alias: {
             '@buttons': './src/components/buttons',
             '@inputs': './src/components/inputs',

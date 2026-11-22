@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Text } from 'react-native'
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
 
@@ -53,9 +53,10 @@ export function RequestLocationPermission() {
 
   useEffect(() => {
     if (foregroundPermission?.granted && backgroundPermission?.granted) {
-      navigation.navigate('Home' as never)
+      // replace: a tela de permissão não fica na pilha atrás da Home.
+      navigation.dispatch(StackActions.replace('Home'));
     }
-  }, [foregroundPermission, backgroundPermission]);
+  }, [foregroundPermission, backgroundPermission, navigation]);
 
   return (
     <ContainerView>
@@ -90,8 +91,7 @@ export function RequestLocationPermission() {
 
       <AnchorButton
         style={{ width: '100%' }}
-        onPress={logout}
-        navigateTo='Auth'>
+        onPress={logout}>
         <Text>Sair</Text>
       </AnchorButton>
     </ContainerView>

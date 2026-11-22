@@ -1,13 +1,15 @@
-import React, { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { render, RenderOptions } from '@testing-library/react-native'
 import { theme } from '@theme/Theme'
 import { ThemeProvider } from 'styled-components/native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const Stack = createStackNavigator();
+import type { RootStackParamList } from 'src/routes/types';
 
-function AllTheProviders({ children }: any) {
+const Stack = createStackNavigator<RootStackParamList>();
+
+function AllTheProviders({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <NavigationContainer>
@@ -17,18 +19,20 @@ function AllTheProviders({ children }: any) {
   );
 }
 
-function WithNavigation({ children }: any) {
-  return (
-    <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="RequestPermission">
-            {() => children}
-          </Stack.Screen>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
-  );
+function withNavigation(ui: ReactElement) {
+  return function WithNavigation({ children }: { children: ReactNode }) {
+    return (
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login">
+              {() => children}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    );
+  };
 }
 
 const customRender = (
@@ -39,11 +43,11 @@ const customRender = (
 const renderWithNavigation = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>,
-) => render(ui, { wrapper: WithNavigation, ...options })
+) => render(ui, { wrapper: withNavigation(ui), ...options })
 
 export * from '@testing-library/react-native'
 
-export { 
-  customRender as render, 
-  renderWithNavigation 
+export {
+  customRender as render,
+  renderWithNavigation
 }

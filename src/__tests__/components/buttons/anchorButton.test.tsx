@@ -1,22 +1,22 @@
 import { AnchorButton } from "@buttons/AnchorButton"
 import { render } from "src/__tests__/test-utils/test-utils";
-import { screen } from "@testing-library/react-native";
+import { fireEvent, screen } from "@testing-library/react-native";
 import { PlayIcon } from "@assets/icons";
 import { Text } from "react-native";
 
 jest.mock("@assets/icons/play.svg", () => 'PlayIcon');
 
 describe('components/button/AnchorButton', () => {
-  beforeEach(() => {
-    render(
-      <AnchorButton navigateTo="auth">
+  beforeEach(async () => {
+    await render(
+      <AnchorButton navigateTo="Login">
         <Text>Test Button</Text>
         <PlayIcon width='48' />
       </AnchorButton>
     );
   });
 
-  test('Should Anchor button contain text', () => {
+  test('Should Anchor button be rendered', () => {
     const anchorButton = screen.getByTestId('anchor-button');
 
     expect(anchorButton).toBeOnTheScreen();
@@ -32,5 +32,21 @@ describe('components/button/AnchorButton', () => {
     const anchorButtonContent = screen.queryByTestId('anchor-button-content');
 
     expect(anchorButtonContent?.children[1]).toHaveProp('width', '48');
+  });
+});
+
+describe('components/button/AnchorButton onPress', () => {
+  test('Should call onPress when pressed', async () => {
+    const onPress = jest.fn();
+
+    await render(
+      <AnchorButton onPress={onPress}>
+        <Text>Sair</Text>
+      </AnchorButton>
+    );
+
+    await fireEvent.press(screen.getByText('Sair'));
+
+    expect(onPress).toHaveBeenCalledTimes(1);
   });
 });

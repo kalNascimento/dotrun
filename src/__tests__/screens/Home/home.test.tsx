@@ -22,6 +22,7 @@ jest.mock('@hooks/use-run-tracking.hook', () => ({
     },
     elapsedTime: 0,
     route: [],
+    status: 'idle',
     start: jest.fn(),
     pause: jest.fn(),
     stop: jest.fn(),
@@ -31,9 +32,7 @@ jest.mock('@hooks/use-run-tracking.hook', () => ({
 describe('screens/Home', () => {
 
   beforeEach(async () => {
-    await waitFor(() => {
-      render(<Home />);
-    })
+    await render(<Home />);
   })
   test('Should Home is rendered', () => {
       const home = screen.queryByTestId('home-screen');
@@ -59,9 +58,12 @@ describe('screens/Home', () => {
       expect(timer).toBeOnTheScreen();
   });
 
-  test('Should Home is rendered 6 CustomButtons', () => {
+  test('Should Home show only the start button when idle', () => {
+      // Cada CustomButton tem dois elementos com testID "custom-button".
       const button = screen.queryAllByTestId('custom-button');
 
-      expect(button).toHaveLength(6);
+      expect(button).toHaveLength(2);
+      expect(screen.getByText('Iniciar')).toBeOnTheScreen();
+      expect(screen.queryByText('Pausar')).not.toBeOnTheScreen();
   });
 });

@@ -19,7 +19,7 @@ export const LoggedHeader = () => {
         <PersonIcon width="24" height="24" />
       </AnchorButton>
       <LogoIcon width="48" />
-      <AnchorButton onPress={logout} navigateTo='Auth'>
+      <AnchorButton onPress={logout}>
         <LogoutIcon width="24" height="24" />
       </AnchorButton>
     </HeaderView>

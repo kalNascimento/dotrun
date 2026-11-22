@@ -1,13 +1,11 @@
 import { KeyboardAvoidingView, View } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 
 import { CustomTextInput } from "@inputs/CustomTextInput";
 import { CustomPasswordInput } from "@inputs/CustomPasswordInput";
 import { CustomOutlineButton } from "@buttons/CustomOutlineButton";
 import { AnchorButton } from "@buttons/AnchorButton";
-
-import { useNavigation } from '@react-navigation/native';
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '@configs/firebase';
@@ -37,20 +35,10 @@ export function LoginForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const { control, handleSubmit } = useForm<IUser>();
 
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    const userState = auth.onAuthStateChanged((user) => {
-      user && navigation.navigate('RequestPermission' as never)
-    })
-    return userState;
-  }, [])
-
+  // Após o login, o AppRoute troca para a pilha autenticada automaticamente.
   const onSubmit: SubmitHandler<IUser> = async (user: IUser) => {
-    signInWithEmailAndPassword(auth, user.email, user.password)
-      .then(() => {
-        navigation.navigate('RequestPermission' as never)
-      })
+    setErrorMsg('');
+    await signInWithEmailAndPassword(auth, user.email, user.password)
       .catch((error) => {
         error.code && setErrorMsg('Usuário e/ou senha incorretos, tente novamente')
       });

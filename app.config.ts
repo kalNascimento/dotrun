@@ -1,8 +1,6 @@
-import { ExpoConfig, ConfigContext } from '@expo/config';
-import * as dotenv from 'dotenv';
+import { ExpoConfig, ConfigContext } from 'expo/config';
 
-dotenv.config();
-
+// O Expo CLI já carrega o .env automaticamente ao ler este arquivo.
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   slug: 'dotrun',
@@ -11,13 +9,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   userInterfaceStyle: 'light',
-  splash: {
-    image: './assets/images/splash.png',
-    resizeMode: 'contain',
-    backgroundColor: '#007A4F'
-  },
   plugins: [
-    'expo-splash-screen',
+    [
+      'expo-splash-screen',
+      {
+        image: './assets/images/splash.png',
+        resizeMode: 'contain',
+        backgroundColor: '#007A4F'
+      }
+    ],
     [
       'expo-location',
       {

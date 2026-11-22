@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { LocationObject } from 'expo-location';
 
-import { sanitizeRoute } from 'src/utils/geo';
+import { appendSanitizedPoints, sanitizeRoute } from 'src/utils/geo';
 
 export type RunTrackingStatus = 'idle' | 'running' | 'paused';
 
@@ -47,24 +48,54 @@ export async function getRoutePoints(): Promise<RunCoordinate[]> {
   return sanitizeRoute(parseJson<RunCoordinate[]>(storedRoute, []));
 }
 
-export async function saveRoutePoints(points: RunCoordinate[]) {
-  await AsyncStorage.setItem(ROUTE_STORAGE_KEY, JSON.stringify(sanitizeRoute(points)));
+export function saveRoutePoints(points: RunCoordinate[]) {
+  return enqueueWrite(() =>
+    AsyncStorage.setItem(ROUTE_STORAGE_KEY, JSON.stringify(sanitizeRoute(points)))
+  );
 }
 
-export async function appendRoutePoints(points: RunCoordinate[]) {
-  if (!points.length) {
-    return getRoutePoints();
-  }
+// A task de segundo plano e o watch de primeiro plano gravam na mesma chave.
+// Encadear as escritas evita que um "ler → modificar → gravar" sobrescreva
+// o outro e perca pontos.
+let writeQueue: Promise<unknown> = Promise.resolve();
 
-  const currentRoute = await getRoutePoints();
-  const nextRoute = sanitizeRoute([...currentRoute, ...points]);
-  await AsyncStorage.setItem(ROUTE_STORAGE_KEY, JSON.stringify(nextRoute));
-
-  return nextRoute;
+function enqueueWrite<T>(operation: () => Promise<T>): Promise<T> {
+  const result = writeQueue.then(operation, operation);
+  writeQueue = result.catch(() => undefined);
+  return result;
 }
 
-export async function clearRoutePoints() {
-  await AsyncStorage.removeItem(ROUTE_STORAGE_KEY);
+export function appendRoutePoints(points: RunCoordinate[]) {
+  return enqueueWrite(async () => {
+    // A rota gravada já foi sanitizada; aqui só os pontos novos são validados.
+    const storedRoute = await AsyncStorage.getItem(ROUTE_STORAGE_KEY);
+    const currentRoute = parseJson<RunCoordinate[]>(storedRoute, []);
+
+    if (!points.length) {
+      return currentRoute;
+    }
+
+    const nextRoute = appendSanitizedPoints(currentRoute, points);
+
+    if (nextRoute.length !== currentRoute.length) {
+      await AsyncStorage.setItem(ROUTE_STORAGE_KEY, JSON.stringify(nextRoute));
+    }
+
+    return nextRoute;
+  });
+}
+
+export function locationToRoutePoint(location: LocationObject): RunCoordinate {
+  return {
+    latitude: location.coords.latitude,
+    longitude: location.coords.longitude,
+    accuracy: location.coords.accuracy,
+    timestamp: location.timestamp ?? Date.now(),
+  };
+}
+
+export function clearRoutePoints() {
+  return enqueueWrite(() => AsyncStorage.removeItem(ROUTE_STORAGE_KEY));
 }
 
 export async function getRunSession(): Promise<RunTrackingSession> {

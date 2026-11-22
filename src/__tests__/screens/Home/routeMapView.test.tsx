@@ -27,7 +27,7 @@ const COORDINATE_EMPTY = { } as ICoordinates;
 describe('screens/Home/RouteMapView', () => {
 
   test('Should RouterMapView is rendered with mapView', async () => {
-    render(
+    await render(
       <RouteMapView coordinate={COORDINATE} positionHistory={POSITION_HISTORY} />
     )
 
@@ -39,7 +39,7 @@ describe('screens/Home/RouteMapView', () => {
   });
 
   test('Should RouterMapView is rendered without mapView', async () => {
-    render(
+    await render(
       <RouteMapView coordinate={COORDINATE_EMPTY} positionHistory={POSITION_HISTORY} />
     );
 

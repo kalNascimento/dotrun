@@ -7,7 +7,7 @@ describe('screens/Home/TotalDistance', () => {
   test('Should TotalDistance is rendered', async () => {
     const POSITION_HISTORY = [] as ICoordinates[];
 
-    render(
+    await render(
       <TotalDistance positionHistory={POSITION_HISTORY} />
     );
 
@@ -21,7 +21,7 @@ describe('screens/Home/TotalDistance', () => {
   test('Should totalDistanceContent equals', async () => {
     const POSITION_HISTORY = [] as ICoordinates[];
 
-    render(
+    await render(
       <TotalDistance positionHistory={POSITION_HISTORY} />
     );
 
@@ -36,7 +36,7 @@ describe('screens/Home/TotalDistance', () => {
       { latitude: -23.55152, longitude: -46.634308 }
     ] as ICoordinates[];
 
-    render(
+    await render(
       <TotalDistance positionHistory={POSITION_HISTORY} />
     );
 

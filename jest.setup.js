@@ -1,10 +1,25 @@
-// Optional: configure or set up a testing framework before each test.
-// If you delete this file, remove `setupFilesAfterEnv` from `jest.config.js`
+// Mocks dos módulos nativos que não existem no ambiente do Jest.
+import 'react-native-gesture-handler/jestSetup';
 
-// Used for __tests__/testing-library.js
-// Learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-native/extend-expect';
+jest.mock('react-native-maps', () => {
+  const React = require('react');
+  const { View } = require('react-native');
 
-import { toBeEmptyElement, toHaveTextContent } from '@testing-library/jest-native';
+  const createMock = (name) => {
+    const Component = ({ children, ...props }) => React.createElement(View, props, children);
+    Component.displayName = name;
+    return Component;
+  };
 
-expect.extend({ toBeEmptyElement, toHaveTextContent });
+  const MapView = createMock('MapView');
+
+  return {
+    __esModule: true,
+    default: MapView,
+    MapView,
+    Marker: createMock('Marker'),
+    Polyline: createMock('Polyline'),
+    PROVIDER_DEFAULT: null,
+    PROVIDER_GOOGLE: 'google',
+  };
+});

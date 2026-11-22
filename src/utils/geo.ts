@@ -51,10 +51,18 @@ export function haversineDistanceInMeters(startPoint: RunCoordinate, endPoint: R
   return EARTH_RADIUS_IN_METERS * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-export function sanitizeRoute(points: RunCoordinate[]) {
-  return points.reduce<RunCoordinate[]>((route, point) => {
+/**
+ * Acrescenta pontos a uma rota já sanitizada, validando só os pontos novos
+ * contra o último ponto aceito (O(k), não O(n)). Descarta pontos inválidos,
+ * imprecisos, quase parados e fora de ordem: a task de segundo plano e o
+ * watch de primeiro plano podem entregar leituras atrasadas.
+ */
+export function appendSanitizedPoints(route: RunCoordinate[], points: RunCoordinate[]) {
+  const nextRoute = route.slice();
+
+  for (const point of points) {
     if (!isValidCoordinate(point)) {
-      return route;
+      continue;
     }
 
     const normalizedPoint = {
@@ -62,17 +70,29 @@ export function sanitizeRoute(points: RunCoordinate[]) {
       timestamp: point.timestamp ?? Date.now(),
     };
 
-    const previousPoint = route[route.length - 1];
+    const previousPoint = nextRoute[nextRoute.length - 1];
 
-    if (
-      previousPoint &&
-      haversineDistanceInMeters(previousPoint, normalizedPoint) < MIN_DISTANCE_BETWEEN_POINTS_IN_METERS
-    ) {
-      return route;
+    if (previousPoint) {
+      if (
+        typeof previousPoint.timestamp === 'number' &&
+        normalizedPoint.timestamp < previousPoint.timestamp
+      ) {
+        continue;
+      }
+
+      if (haversineDistanceInMeters(previousPoint, normalizedPoint) < MIN_DISTANCE_BETWEEN_POINTS_IN_METERS) {
+        continue;
+      }
     }
 
-    return [...route, normalizedPoint];
-  }, []);
+    nextRoute.push(normalizedPoint);
+  }
+
+  return nextRoute;
+}
+
+export function sanitizeRoute(points: RunCoordinate[]) {
+  return appendSanitizedPoints([], points);
 }
 
 export function calculateTotalDistanceInMeters(points: RunCoordinate[]) {

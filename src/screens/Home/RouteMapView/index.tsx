@@ -1,9 +1,5 @@
-import { Platform, View } from 'react-native';
-import MapView from 'react-native-maps/lib/MapView';
-import {
-  PROVIDER_DEFAULT,
-  PROVIDER_GOOGLE
-} from 'react-native-maps/lib/ProviderConstants';
+import { Platform } from 'react-native';
+import MapView, { PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps';
 
 import { RouteMarker } from '../RouteMarker';
 

@@ -25,6 +25,7 @@ export function Home() {
     currentCoordinate,
     elapsedTime,
     route,
+    status,
     start,
     pause,
     stop,
@@ -66,20 +67,30 @@ export function Home() {
         </View>
         <RouteMapView coordinate={currentCoordinate} positionHistory={route} />
         <ContainerButtonView>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
-              <Text>Parar</Text>
-              <StopIcon width="32" />
+          {status === 'idle' ? (
+            <CustomButton onPress={startBackgroundUpdate}>
+              <Text>Iniciar</Text>
+              <PlayIcon width="32" />
             </CustomButton>
-            <CustomButton onPress={pauseBackgroundUpdate} style={{ width: '42%' }}>
-              <Text>Pausar</Text>
-              <PauseIcon width="32" />
-            </CustomButton>
-          </View>
-          <CustomButton onPress={startBackgroundUpdate}>
-            <Text>Iniciar</Text>
-            <PlayIcon width="32" />
-          </CustomButton>
+          ) : (
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <CustomButton onPress={stopBackgroundUpdate} style={{ width: '42%' }}>
+                <Text>Parar</Text>
+                <StopIcon width="32" />
+              </CustomButton>
+              {status === 'running' ? (
+                <CustomButton onPress={pauseBackgroundUpdate} style={{ width: '42%' }}>
+                  <Text>Pausar</Text>
+                  <PauseIcon width="32" />
+                </CustomButton>
+              ) : (
+                <CustomButton onPress={startBackgroundUpdate} style={{ width: '42%' }}>
+                  <Text>Retomar</Text>
+                  <PlayIcon width="32" />
+                </CustomButton>
+              )}
+            </View>
+          )}
         </ContainerButtonView>
       </ContainerView>
     </>

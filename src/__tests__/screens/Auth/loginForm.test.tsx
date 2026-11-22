@@ -7,9 +7,7 @@ jest.mock('firebase/auth', () => ({
 }));
 
 jest.mock('@configs/firebase', () => ({
-  auth: {
-    onAuthStateChanged: jest.fn()
-  }
+  auth: {}
 }));
 
 jest.mock("@assets/icons/facebook_logo.svg", () => 'FacebookIcon')
@@ -19,8 +17,8 @@ jest.mock("@assets/icons/dotRUN.svg", () => 'LogoIcon')
 
 describe('screens/Auth/LoginForm', () => {
 
-  beforeEach(() => {
-    renderWithNavigation(<LoginForm></LoginForm>)
+  beforeEach(async () => {
+    await renderWithNavigation(<LoginForm></LoginForm>)
   });
 
   test('Should LoginForm is rendered', async () => {
@@ -38,7 +36,7 @@ describe('screens/Auth/LoginForm', () => {
   test('Should display error messages when clicking login button without input', async () => {
     const button = screen.getByTestId('custom-outline-button');
 
-    fireEvent.press(button);
+    await fireEvent.press(button);
   
     await waitFor(() => {
       const errorPassword = screen.queryByTestId('custom-password-input-error-text');
@@ -55,10 +53,10 @@ describe('screens/Auth/LoginForm', () => {
     const emailInput = screen.getByTestId('custom-text-input-content'); 
     const passwordInput = screen.getByTestId('custom-password-input-content');
 
-    fireEvent.changeText(emailInput, 'john.doe@test.com');
-    fireEvent.changeText(passwordInput, 'test@123');
+    await fireEvent.changeText(emailInput, 'john.doe@test.com');
+    await fireEvent.changeText(passwordInput, 'test@123');
     
-    fireEvent.press(loginButton);
+    await fireEvent.press(loginButton);
 
     await waitFor(() => {
       expect(emailInput.props.value).toBe('john.doe@test.com');
@@ -72,13 +70,13 @@ describe('screens/Auth/LoginForm', () => {
     const emailInput = screen.getByTestId('custom-text-input-content'); 
     const passwordInput = screen.getByTestId('custom-password-input-content');
 
-    fireEvent.changeText(emailInput, 'john.doe@test.com');
-    fireEvent.changeText(passwordInput, 'test@123');
+    await fireEvent.changeText(emailInput, 'john.doe@test.com');
+    await fireEvent.changeText(passwordInput, 'test@123');
     
-    fireEvent.press(loginButton);
+    await fireEvent.press(loginButton);
 
     await waitFor(() => {
-      expect(signInWithEmailAndPassword).toBeCalled();
+      expect(signInWithEmailAndPassword).toHaveBeenCalled();
     });
   });
 });

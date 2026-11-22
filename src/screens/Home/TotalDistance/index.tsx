@@ -1,16 +1,23 @@
+import { useMemo } from 'react';
+
 import type { RunCoordinate } from 'src/services/runTrackingStorage';
 import { calculateTotalDistanceInMeters } from 'src/utils/geo';
 
 import { DisplayText, DisplayView } from "./styles";
 
-interface RouteMapViewProps {
+interface TotalDistanceProps {
   positionHistory: RunCoordinate[]
 }
 
 export function TotalDistance({
   positionHistory
-}: RouteMapViewProps) {
-  const totalDistanceInMeters = calculateTotalDistanceInMeters(positionHistory).toFixed(2);
+}: TotalDistanceProps) {
+  // A Home re-renderiza a cada segundo por causa do cronômetro; a distância
+  // só é recalculada quando a rota muda.
+  const totalDistanceInMeters = useMemo(
+    () => calculateTotalDistanceInMeters(positionHistory).toFixed(2),
+    [positionHistory]
+  );
 
   return (
     <DisplayView testID="total-distance">

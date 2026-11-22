@@ -1,8 +1,9 @@
 import { StyleProp, ViewStyle } from "react-native";
-import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils";
+
+import type { RootStackParamList } from "src/routes/types";
 
 export interface CustomButtonProps {
   onPress?: () => void,
-  navigateTo?: string,
+  navigateTo?: keyof RootStackParamList,
   style?: StyleProp<ViewStyle>
 }

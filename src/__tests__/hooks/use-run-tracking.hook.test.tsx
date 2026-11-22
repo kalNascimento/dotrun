@@ -1,7 +1,7 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-native';
 
 import { useRunTracking } from '@hooks/use-run-tracking.hook';
-import { LOCATION_TASK_NAME } from 'src/services/runTrackingStorage';
+import { appendRoutePoints, LOCATION_TASK_NAME } from 'src/services/runTrackingStorage';
 
 const asyncStorage: Record<string, string> = {};
 
@@ -47,7 +47,7 @@ describe('hooks/useRunTracking', () => {
 
   test('starts, pauses and stops run tracking', async () => {
     const Location = jest.requireMock('expo-location');
-    const { result, unmount } = renderHook(() => useRunTracking());
+    const { result, unmount } = await renderHook(() => useRunTracking());
 
     await act(async () => {
       await Promise.resolve();
@@ -84,6 +84,34 @@ describe('hooks/useRunTracking', () => {
 
     expect(result.current.status).toBe('idle');
 
-    unmount();
+    await unmount();
+  });
+
+  test('does not clear the route when start is pressed while running', async () => {
+    const Location = jest.requireMock('expo-location');
+    const { result, unmount } = await renderHook(() => useRunTracking());
+
+    await act(async () => {
+      await result.current.start();
+    });
+
+    await act(async () => {
+      await appendRoutePoints([
+        { latitude: -23.55052, longitude: -46.633308, timestamp: 1 },
+        { latitude: -23.55152, longitude: -46.634308, timestamp: 2 },
+      ]);
+      await result.current.syncStoredTracking();
+    });
+
+    expect(result.current.route).toHaveLength(2);
+
+    await act(async () => {
+      await result.current.start();
+    });
+
+    expect(result.current.route).toHaveLength(2);
+    expect(Location.startLocationUpdatesAsync).toHaveBeenCalledTimes(1);
+
+    await unmount();
   });
 });
