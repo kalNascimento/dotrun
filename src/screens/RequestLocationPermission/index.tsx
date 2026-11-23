@@ -35,7 +35,7 @@ const BackgroundRequestText = (requestButton: React.ReactNode) => {
       <ExplanatoryText>
         Para podermos marcar percursos mesmo com a tela do aparelho desligada,
         solicitamos permissão de acesso à localização em segundo plano. Selecione a opção
-        "Permitir o tempo todo".
+        “Permitir o tempo todo”.
       </ExplanatoryText>
       <PermissionConsentText>
         Permitir que .RUN use localização em segundo plano?

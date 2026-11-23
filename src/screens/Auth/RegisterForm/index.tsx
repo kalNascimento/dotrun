@@ -26,17 +26,10 @@ import { IUser } from "../types";
 
 export function RegisterForm() {
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [isSamePassword, setIsSamePassword] = useState<boolean>();
   const { control, handleSubmit } = useForm<IUser>();
 
   const onSubmit: SubmitHandler<IUser> = (user) => {
-    const passwordsMatch = user.password === user.confirmPassword;
-    setIsSamePassword(passwordsMatch);
     setErrorMsg('');
-
-    if (!passwordsMatch) {
-      return;
-    }
 
     // O Firebase já autentica o usuário recém-criado, e o AppRoute segue
     // direto para a pilha autenticada.
@@ -52,6 +45,11 @@ export function RegisterForm() {
       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
       message: 'Endereço de email inválido'
     }
+  };
+
+  const confirmPasswordRules = {
+    validate: (value: string, values: IUser) =>
+      value === values.password || 'Senha e confirmar senha precisam ser iguais',
   };
 
   return (
@@ -83,6 +81,7 @@ export function RegisterForm() {
                 label="Confirme a senha"
                 placeholder='********'
                 name="confirmPassword"
+                rules={confirmPasswordRules}
               />
             </AuthInputContainerView>
             <View>
@@ -91,9 +90,6 @@ export function RegisterForm() {
               </CustomOutlineButton>
               {!!errorMsg &&
                 <ErrorText>{errorMsg}</ErrorText>
-              }
-              {isSamePassword == false &&
-                <ErrorText>Senha e confirmar senha precisam ser iguais</ErrorText>
               }
             </View>
             <AnchorButton navigateTo="Login">

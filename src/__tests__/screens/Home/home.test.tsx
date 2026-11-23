@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "src/__tests__/test-utils/test-utils";
+import { render, screen } from "src/__tests__/test-utils/test-utils";
 import { Home } from "src/screens/Home";
 
 jest.mock('@configs/firebase', () => ({

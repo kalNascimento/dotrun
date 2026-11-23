@@ -209,6 +209,9 @@ export function useRunTracking() {
   }, [stopForegroundWatch]);
 
   useEffect(() => {
+    // Falso positivo: todos os setState de syncStoredTracking acontecem depois
+    // de um await (leitura do AsyncStorage), não de forma síncrona no efeito.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     syncStoredTracking();
 
     return () => {

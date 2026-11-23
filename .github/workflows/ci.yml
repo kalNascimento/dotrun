@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # O react-native-dotenv precisa do arquivo; os testes mockam o Firebase,
+      # então os valores vazios do exemplo bastam.
+      - run: cp .env.example .env
+
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test -- --ci
